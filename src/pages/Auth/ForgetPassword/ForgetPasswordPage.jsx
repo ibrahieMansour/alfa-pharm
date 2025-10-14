@@ -5,8 +5,8 @@ import NewPasswordStep from "./NewPasswordStep";
 import SuccessStep from "./SuccessStep";
 
 const ForgetPasswordPage = () => {
-  const [step, setStep] = useState(4);
-  const [phone, setPhone] = useState("01020515897");
+  const [step, setStep] = useState(1);
+  const [phone, setPhone] = useState("");
   return (
     <>
       {step === 1 && <PhoneStep setStep={setStep} phone={phone} setPhone={setPhone} />}
