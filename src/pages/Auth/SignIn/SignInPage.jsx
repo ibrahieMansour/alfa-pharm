@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import AuthHeading from "../AuthHeading ";
 import PhoneInput from "../PhoneInput ";
@@ -7,6 +7,8 @@ import PasswordInput from "../PasswordInput ";
 import ErrorMessage from "../ErrorMessage";
 
 const SignInPage = () => {
+  const navigate = useNavigate("");
+
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(false);
@@ -47,6 +49,7 @@ const SignInPage = () => {
 
       setPhone("");
       setPassword("");
+      navigate("/products");
       //finally
       setIsDisabled(false);
     }, 3000);

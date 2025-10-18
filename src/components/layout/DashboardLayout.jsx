@@ -1,18 +1,18 @@
 import { useEffect, useRef, useState } from "react";
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 
 import { useMediaQuery } from "@uidotdev/usehooks";
-// import { useClickOutside } from "@/hooks/use-click-outside";
+import { useClickOutside } from "@/hooks/use-click-outside";
 
-// import { Sidebar } from "@/layouts/sidebar";
-// import { Header } from "@/layouts/header";
+import { Sidebar } from "@/components/Sidebar";
+import { Header } from "@/components/Header";
 
 import { cn } from "@/utils/cn";
 const DashboardLayout = () => {
   const isDesktopDevice = useMediaQuery("(min-width: 768px)");
   const [collapsed, setCollapsed] = useState(!isDesktopDevice);
-
   const sidebarRef = useRef(null);
+  const location = useLocation(); // ⬅️ get current route
 
   useEffect(() => {
     setCollapsed(!isDesktopDevice);
@@ -24,24 +24,39 @@ const DashboardLayout = () => {
     }
   });
 
+  useEffect(() => {
+    if (!isDesktopDevice) {
+      setCollapsed(true);
+    }
+  }, [location, isDesktopDevice]);
+
   return (
     <>
-      <div className="h-screen max-h-screen bg-slate-100">
+      <div className="dashboard-layout h-dvh max-h-dvh bg-[#DDE2DC] overflow-hidden">
         <div
           className={cn(
             "pointer-events-none fixed inset-0 -z-10 bg-black opacity-0 transition-opacity",
-            !collapsed && "max-md:pointer-events-auto max-md:z-50 max-md:opacity-30"
+            !collapsed && "max-md:pointer-events-auto max-md:z-[99] max-md:opacity-30"
           )}
         />
-        {/* <Sidebar ref={sidebarRef} collapsed={collapsed} /> */}
+        <Sidebar
+          ref={sidebarRef}
+          collapsed={collapsed}
+          setCollapsed={setCollapsed}
+          isDesktopDevice={isDesktopDevice}
+        />
         <div
           className={cn(
             "transition-[margin] duration-300",
-            collapsed ? "md:ml-[70px]" : "md:ml-[240px]"
+            collapsed ? "md:mr-[70px]" : "md:mr-[240px]"
           )}
         >
-          {/* <Header collapsed={collapsed} setCollapsed={setCollapsed} /> */}
-          <div className="h-[calc(100vh-60px)] overflow-hidden p-4">
+          <Header
+            collapsed={collapsed}
+            setCollapsed={setCollapsed}
+            isDesktopDevice={isDesktopDevice}
+          />
+          <div className="h-[calc(100dvh-60px)] overflow-auto flex flex-col">
             <Outlet />
           </div>
         </div>

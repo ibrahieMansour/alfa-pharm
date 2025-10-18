@@ -6,11 +6,11 @@ import DashboardLayout from "@/components/layout/DashboardLayout";
 import SignInPage from "@/pages/Auth/SignIn/SignInPage";
 import ForgetPasswordPage from "@/pages/Auth/ForgetPassword/ForgetPasswordPage";
 
-import Products from "@/pages/Products/Products";
-import Orders from "@/pages/Orders/Orders";
-import Customers from "@/pages/Customers/Customers";
-import Staff from "@/pages/Staff/Staff";
-import NotFound from "@/pages/NotFound/NotFound";
+import ProductsPage from "@/pages/Products/ProductsPage";
+import OrdersPage from "@/pages/Orders/OrdersPage";
+import CustomersPage from "@/pages/Customers/CustomersPage";
+import StaffPage from "@/pages/Staff/StaffPage";
+import NotFoundPage from "@/pages/NotFound/NotFoundPage";
 
 function App() {
   return (
@@ -23,14 +23,14 @@ function App() {
           </Route>
 
           <Route element={<DashboardLayout />}>
-            <Route path="/products" element={<Products />} />
-            <Route path="/orders" element={<Orders />} />
-            <Route path="/customers" element={<Customers />} />
-            <Route path="/staff" element={<Staff />} />
+            <Route path="/products" element={<ProductsPage />} />
+            <Route path="/orders" element={<OrdersPage />} />
+            <Route path="/customers" element={<CustomersPage />} />
+            <Route path="/staff" element={<StaffPage />} />
           </Route>
 
           <Route path="/" element={<Navigate to="/signin" replace />} />
-          <Route path="*" element={<NotFound />} />
+          <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </BrowserRouter>
     </>

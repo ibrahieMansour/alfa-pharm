@@ -5,7 +5,7 @@ import authImage from "../../assets/images/authImage.png";
 const AuthLayout = () => {
   return (
     <>
-      <div className="h-screen max-h-screen overflow-hidden flex flex-col bg-[#DDE2DC]">
+      <div className="h-dvh max-h-dvh overflow-hidden flex flex-col bg-[#DDE2DC]">
         <div className="relative p-4 after:absolute after:left-0 after:bottom-0 after:h-[3px] after:w-full after:bg-gradient-to-r after:from-[#E97E39] after:to-[#5EB756] [direction:ltr] sm:block hidden">
           <div className="text-[30px] font-medium leading-6 text-[#5EB756]">
             Alfα<span className="text-[#E97E39]">Pharm</span>
