@@ -1,14 +1,17 @@
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@100..900&display=swap");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
-  /* Firefox */
-  // body {
-  //   @apply [scrollbar-width:thin] [scrollbar-color:#cbd5e1_transparent];
-  // }
+  body {
+    // @apply font-arabic;
+    font-family: "Noto Sans Arabic", sans-serif;
+  }
   ::-webkit-scrollbar {
-    width: 6px;
+    width: 2px;
+    height: 5px;
   }
   ::-webkit-scrollbar-thumb {
     background-color: #cbd5e1;
@@ -112,11 +115,11 @@
     .sidebar-item {
       @apply flex flex-shrink-0 items-center gap-x-3
        h-[40px] w-full border-r-4 border-r-transparent rounded-[15px]
-        text-sm font-normal transition-all
+        text-[13px] font-[600] transition-all
         text-[#5D5D5D] stroke-[#6D6D6D] p-2;
       &.active,
       &:hover {
-        @apply bg-white text-[#E97E39] stroke-[#E97E39] border-r-[#E97E39] font-bold;
+        @apply bg-white text-[#E97E39] stroke-[#E97E39] border-r-[#E97E39];
       }
     }
 
@@ -146,8 +149,9 @@
     .card-title {
       @apply font-medium text-xs text-black;
     }
-    // .card-button {
-    // }
+    .card-button {
+      @apply bg-[#5EB756] flex justify-center items-center gap-x-1 rounded-lg p-2;
+    }
 
     .card-body {
       @apply flex flex-col flex-1 gap-y-2 rounded-lg overflow-auto relative;
@@ -155,10 +159,27 @@
 
     .table {
       @apply h-full w-full text-slate-900 text-center;
+      &.customers-table {
+        .table-cell:nth-of-type(1) {
+          @apply min-w-[50px] w-[75px];
+        }
+        .table-cell:nth-of-type(2) {
+          @apply min-w-[150px] max-w-[150px];
+        }
+        .table-cell:nth-of-type(3) {
+          @apply min-w-[100px];
+        }
+        .table-cell:nth-of-type(4) {
+          @apply min-w-[75px];
+        }
+        .table-cell:nth-of-type(5) {
+          @apply min-w-[50px] w-[75px];
+        }
+      }
     }
 
     .table-header {
-      @apply sticky top-0 bg-white border-b border-[#E7E7E7];
+      @apply sticky top-0 z-10 bg-white border-b border-[#E7E7E7];
     }
 
     .table-row {
@@ -166,13 +187,37 @@
     }
 
     .table-head {
-      @apply h-12 px-4 text-[10px] font-normal;
+      @apply py-3 text-[10px] font-normal bg-white;
     }
 
     .table-cell {
-      @apply w-fit whitespace-nowrap p-4 text-[10px] font-normal;
+      @apply w-fit whitespace-nowrap overflow-hidden text-ellipsis py-3 text-[10px] font-medium bg-white;
+      & .ban-btn {
+        @apply w-[60px] py-1 font-bold border border-[#FA0404] rounded-md;
+        &.ban {
+          @apply bg-[#fa04041a];
+        }
+        &.un-ban {
+        }
+      }
     }
   }
+
+  #modal {
+    .field {
+      @apply flex sm:items-center max-sm:flex-col;
+      .label {
+        @apply block text-[#414651] font-medium text-xs max-sm:mb-2 sm:w-1/4;
+      }
+      .input {
+        @apply block w-full py-2 px-3 rounded-lg text-xs text-[#414651] border border-transparent focus:outline-none focus:border-[#5EB756] hover:border-[#5EB756];
+      }
+    }
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.3s ease-in-out;
 }
 
 @for $i from 1 through 10 {
@@ -180,6 +225,16 @@
     animation: myAnimation 3s linear calc(#{$i} / 2 * 1s) infinite;
   }
 }
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
 @keyframes myAnimation {
   to {
     width: 500px;

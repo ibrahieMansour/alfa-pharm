@@ -12,8 +12,8 @@ export const Header = ({ collapsed, setCollapsed, isDesktopDevice }) => {
   return (
     <header
       className={cn(
-        "relative flex z-[10] h-[60px] items-center justify-between bg-inherit px-4 after:absolute after:left-0 after:bottom-0 after:h-[1px] after:w-full after:bg-gradient-to-r after:from-[#E97E39] after:to-[#5EB756]",
-        isDesktopDevice ? "z-[101]" : "z-[10]"
+        "relative z-10 flex h-[60px] items-center justify-between bg-inherit px-4 after:absolute after:left-0 after:bottom-0 after:h-[1px] after:w-full after:bg-gradient-to-r after:from-[#E97E39] after:to-[#5EB756]",
+        // isDesktopDevice ? "z-[101]" : "z-[10]"
       )}
     >
       <div className="flex items-center gap-x-3">
@@ -30,7 +30,7 @@ export const Header = ({ collapsed, setCollapsed, isDesktopDevice }) => {
         <button className="btn-ghost" onClick={() => setCollapsed(!collapsed)}>
           <img src={MenuBars} alt="menu-bars-icon" className="w-4 h-3 rotate-180" />
         </button>
-        {!isDesktopDevice ? (
+        {/* {!isDesktopDevice ? (
           <button className="btn-ghost" onClick={() => {}}>
             <img src={SearchIcon} alt="search-icon" className="w-5 h-5" />
           </button>
@@ -52,7 +52,7 @@ export const Header = ({ collapsed, setCollapsed, isDesktopDevice }) => {
             </button>
 
           </div>
-        )}
+        )} */}
       </div>
       <div className="flex items-center gap-x-3">
         <Link to="/orders" className="btn-ghost relative">

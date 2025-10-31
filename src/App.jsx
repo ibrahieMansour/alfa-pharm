@@ -9,6 +9,7 @@ import ForgetPasswordPage from "@/pages/Auth/ForgetPassword/ForgetPasswordPage";
 import ProductsPage from "@/pages/Products/ProductsPage";
 import OrdersPage from "@/pages/Orders/OrdersPage";
 import CustomersPage from "@/pages/Customers/CustomersPage";
+import UserDetailsPage from "@/pages/UserDetails/UserDetailsPage";
 import StaffPage from "@/pages/Staff/StaffPage";
 import NotFoundPage from "@/pages/NotFound/NotFoundPage";
 
@@ -24,8 +25,14 @@ function App() {
 
           <Route element={<DashboardLayout />}>
             <Route path="/products" element={<ProductsPage />} />
+
             <Route path="/orders" element={<OrdersPage />} />
-            <Route path="/customers" element={<CustomersPage />} />
+
+            <Route path="/customers">
+              <Route index element={<CustomersPage />} />
+              <Route path=":id" element={<UserDetailsPage />} />
+            </Route>
+
             <Route path="/staff" element={<StaffPage />} />
           </Route>
 

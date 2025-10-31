@@ -20,9 +20,9 @@ const ProductsPage = () => {
                 </tr>
               </thead>
               <tbody className="table-body">
-                {[...Array(50)].map(() => {
+                {[...Array(50)].map((_, i) => {
                   return (
-                    <tr className="table-row">
+                    <tr className="table-row" key={i}>
                       <td className="table-cell">1</td>
                       <td className="table-cell">2</td>
                       <td className="table-cell">3</td>

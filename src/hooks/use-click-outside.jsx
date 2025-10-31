@@ -10,11 +10,10 @@ export const useClickOutside = (refs, callback) => {
       }
     };
 
-    document.addEventListener("touchstart", handleOutsideClick);
-    document.addEventListener("mousedown", handleOutsideClick);
+    window.addEventListener("mousedown", handleOutsideClick);
+
     return () => {
-      document.removeEventListener("touchstart", handleOutsideClick);
-      document.removeEventListener("mousedown", handleOutsideClick);
+      window.removeEventListener("mousedown", handleOutsideClick);
     };
   }, [callback, refs]);
 };

@@ -19,16 +19,12 @@ const DashboardLayout = () => {
   }, [isDesktopDevice]);
 
   useClickOutside([sidebarRef], () => {
-    if (!isDesktopDevice && !collapsed) {
-      setCollapsed(true);
-    }
+    if (!isDesktopDevice && !collapsed) setCollapsed(true);
   });
 
   useEffect(() => {
-    if (!isDesktopDevice) {
-      setCollapsed(true);
-    }
-  }, [location, isDesktopDevice]);
+    if (!isDesktopDevice) setCollapsed(true);
+  }, [location]);
 
   return (
     <>
@@ -36,7 +32,7 @@ const DashboardLayout = () => {
         <div
           className={cn(
             "pointer-events-none fixed inset-0 -z-10 bg-black opacity-0 transition-opacity",
-            !collapsed && "max-md:pointer-events-auto max-md:z-[99] max-md:opacity-30"
+            !collapsed && "max-md:pointer-events-auto max-md:z-50 max-md:opacity-30"
           )}
         />
         <Sidebar
@@ -48,7 +44,8 @@ const DashboardLayout = () => {
         <div
           className={cn(
             "transition-[margin] duration-300",
-            collapsed ? "md:mr-[70px]" : "md:mr-[240px]"
+            // collapsed ? "md:mr-[70px]" : "md:mr-[240px]",
+            `md:mr-[${collapsed ? 70 : 240}px]`
           )}
         >
           <Header
@@ -56,7 +53,7 @@ const DashboardLayout = () => {
             setCollapsed={setCollapsed}
             isDesktopDevice={isDesktopDevice}
           />
-          <div className="h-[calc(100dvh-60px)] overflow-auto flex flex-col">
+          <div className="h-[calc(100dvh-60px)] flex flex-col">
             <Outlet />
           </div>
         </div>
