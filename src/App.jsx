@@ -1,5 +1,8 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
+import ProtectedRoute from "@/components/ProtectedRoute";
+import PublicRoute from "@/components/PublicRoute";
+
 import AuthLayout from "@/components/layout/AuthLayout";
 import DashboardLayout from "@/components/layout/DashboardLayout";
 
@@ -18,24 +21,28 @@ function App() {
     <>
       <BrowserRouter>
         <Routes>
-          <Route element={<AuthLayout />}>
-            <Route path="/signin" element={<SignInPage />} />
-            <Route path="/forget-password" element={<ForgetPasswordPage />} />
-          </Route>
-
-          <Route element={<DashboardLayout />}>
-            <Route path="/products" element={<ProductsPage />} />
-
-            <Route path="/orders" element={<OrdersPage />} />
-
-            <Route path="/customers">
-              <Route index element={<CustomersPage />} />
-              <Route path=":id" element={<UserDetailsPage />} />
+          {/* Public routes (only when logged out) */}
+          <Route element={<PublicRoute />}>
+            <Route element={<AuthLayout />}>
+              <Route path="/signin" element={<SignInPage />} />
+              <Route path="/forget-password" element={<ForgetPasswordPage />} />
             </Route>
-
-            <Route path="/staff" element={<StaffPage />} />
           </Route>
 
+          {/* Protected routes (only when logged in) */}
+          <Route element={<ProtectedRoute />}>
+            <Route element={<DashboardLayout />}>
+              <Route path="/products" element={<ProductsPage />} />
+              <Route path="/orders" element={<OrdersPage />} />
+              <Route path="/customers">
+                <Route index element={<CustomersPage />} />
+                <Route path=":id" element={<UserDetailsPage />} />
+              </Route>
+              <Route path="/staff" element={<StaffPage />} />
+            </Route>
+          </Route>
+
+          {/* Redirects */}
           <Route path="/" element={<Navigate to="/signin" replace />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
