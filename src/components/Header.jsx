@@ -7,12 +7,50 @@ import Avatar from "@/assets/images/avatar.png";
 import MenuBars from "@/assets/icons/menu-bars.svg";
 import SearchIcon from "@/assets/icons/search.svg";
 import BellIcon from "@/assets/icons/bell.svg";
+import { useSelector } from "react-redux";
+import axios from "axios";
+
+import { BASE_URL } from "@/api/config";
 
 export const Header = ({ collapsed, setCollapsed, isDesktopDevice }) => {
+  const store = useSelector((state) => state.auth);
+
+  const handle = () => {
+    const access_token = localStorage.getItem("access_token");
+    console.log("Token:", access_token);
+
+    setTimeout(() => {
+      axios
+        .post(
+          `${BASE_URL}/users/create`,
+          {
+            phone: "201144138477",
+            name: "dfghdfgdfsgdfdfgfdgdfgdfgdf",
+            password: "P@ssw0rd",
+            address: "addrefdgfdgdfgss fdgfd",
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${access_token}`,
+            },
+          }
+        )
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          console.error("Error:", err.response ? err.response.data : err.message);
+        })
+        .finally(() => {
+          console.log("Request finished");
+        });
+    }, 3000);
+  };
+
   return (
     <header
       className={cn(
-        "relative z-10 flex h-[60px] items-center justify-between bg-inherit px-4 after:absolute after:left-0 after:bottom-0 after:h-[1px] after:w-full after:bg-gradient-to-r after:from-[#E97E39] after:to-[#5EB756]",
+        "relative z-10 flex h-[60px] items-center justify-between bg-inherit px-4 after:absolute after:left-0 after:bottom-0 after:h-[1px] after:w-full after:bg-gradient-to-r after:from-[#E97E39] after:to-[#5EB756]"
         // isDesktopDevice ? "z-[101]" : "z-[10]"
       )}
     >
@@ -29,6 +67,9 @@ export const Header = ({ collapsed, setCollapsed, isDesktopDevice }) => {
         </button> */}
         <button className="btn-ghost" onClick={() => setCollapsed(!collapsed)}>
           <img src={MenuBars} alt="menu-bars-icon" className="w-4 h-3 rotate-180" />
+        </button>
+        <button className="btn-ghost" onClick={handle}>
+          redux
         </button>
         {/* {!isDesktopDevice ? (
           <button className="btn-ghost" onClick={() => {}}>

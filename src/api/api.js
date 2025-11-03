@@ -6,9 +6,9 @@ const api = axios.create({
 });
 
 api.interceptors.request.use((config) => {
-  const token = localStorage.getItem("accessToken");
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
+  const access_token = localStorage.getItem("access_token");
+  if (access_token) {
+    config.headers.Authorization = `Bearer ${access_token}`;
   }
   return config;
 });
@@ -20,9 +20,9 @@ api.interceptors.response.use(
 
     if (error.response?.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
-      const refreshToken = localStorage.getItem("refreshToken");
+      const refresh_token = localStorage.getItem("refresh_token");
 
-      if (!refreshToken) {
+      if (!refresh_token) {
         localStorage.clear();
         window.location.href = "/signin";
         return Promise.reject(error);
@@ -33,12 +33,12 @@ api.interceptors.response.use(
           `${BASE_URL}/auth/refresh/admin`,
           {},
           {
-            headers: { Authorization: `Bearer ${refreshToken}` },
+            headers: { Authorization: `Bearer ${refresh_token}` },
           }
         );
 
-        const newAccess = data.accessToken;
-        localStorage.setItem("accessToken", newAccess);
+        const newAccess = data.access_token;
+        localStorage.setItem("access_token", newAccess);
         originalRequest.headers.Authorization = `Bearer ${newAccess}`;
         return api(originalRequest);
       } catch (err) {

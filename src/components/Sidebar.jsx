@@ -2,6 +2,9 @@ import { forwardRef, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 
+import { useDispatch, useSelector } from "react-redux";
+import { logoutAdmin } from "@/features/auth/authThunks";
+
 import { sideBarNav } from "@/constants/index";
 import { cn } from "@/utils/cn";
 import { Modal } from "./Modal";
@@ -11,6 +14,9 @@ import Logout from "@/assets/icons/logout.svg";
 import LogoutModalIcon from "@/assets/icons/logout-modal-icon.svg";
 
 export const Sidebar = forwardRef(({ collapsed, setCollapsed, isDesktopDevice }, ref) => {
+  const dispatch = useDispatch();
+  const { loading } = useSelector((state) => state.auth);
+
   const [isOpen, setIsOpen] = useState(false);
 
   const [hoverExpanded, setHoverExpanded] = useState(false);
@@ -82,7 +88,8 @@ export const Sidebar = forwardRef(({ collapsed, setCollapsed, isDesktopDevice },
           theme={"danger"}
           confirmText={"تسجيل الخروج"}
           onClose={() => setIsOpen(false)}
-          onConfirm={() => alert("alert example")}
+          onConfirm={() => dispatch(logoutAdmin())}
+          loading={loading}
         >
           <div className="flex flex-col items-center gap-y-1 sm:gap-y-4">
             <div className="inline-block bg-[#f11b1b14] p-3 sm:p-4 rounded-2xl">

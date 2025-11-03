@@ -7,7 +7,6 @@ import AuthLayout from "@/components/layout/AuthLayout";
 import DashboardLayout from "@/components/layout/DashboardLayout";
 
 import SignInPage from "@/pages/Auth/SignIn/SignInPage";
-import ForgetPasswordPage from "@/pages/Auth/ForgetPassword/ForgetPasswordPage";
 
 import ProductsPage from "@/pages/Products/ProductsPage";
 import OrdersPage from "@/pages/Orders/OrdersPage";
@@ -15,8 +14,28 @@ import CustomersPage from "@/pages/Customers/CustomersPage";
 import UserDetailsPage from "@/pages/UserDetails/UserDetailsPage";
 import StaffPage from "@/pages/Staff/StaffPage";
 import NotFoundPage from "@/pages/NotFound/NotFoundPage";
+import { useEffect } from "react";
 
 function App() {
+  useEffect(() => {
+    const checkTokens = () => {
+      const access_token = localStorage.getItem("access_token");
+      const refresh_token = localStorage.getItem("refresh_token");
+
+      if (!access_token || !refresh_token) {
+        localStorage.clear();
+        window.location.href = "/";
+      }
+    };
+
+    // check every load and listen for changes
+    window.addEventListener("storage", checkTokens);
+
+    return () => {
+      window.removeEventListener("storage", checkTokens);
+    };
+  }, []);
+
   return (
     <>
       <BrowserRouter>
@@ -25,7 +44,6 @@ function App() {
           <Route element={<PublicRoute />}>
             <Route element={<AuthLayout />}>
               <Route path="/signin" element={<SignInPage />} />
-              <Route path="/forget-password" element={<ForgetPasswordPage />} />
             </Route>
           </Route>
 

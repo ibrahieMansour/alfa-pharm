@@ -2,6 +2,7 @@ import { createPortal } from "react-dom";
 import PropTypes from "prop-types";
 
 import { cn } from "@/utils/cn";
+import { useState } from "react";
 
 export const Modal = ({
   title = "",
@@ -12,9 +13,17 @@ export const Modal = ({
   width = 400,
   onClose = () => {},
   onConfirm = () => {},
+  loading = false,
   children,
   ...props
 }) => {
+  const [animateOut, setAnimateOut] = useState(false);
+
+  const handleClose = () => {
+    setAnimateOut(true);
+    setTimeout(onClose, 300);
+  };
+
   const themeColors = {
     danger: "bg-[#D22F27] hover:bg-[#99231d]",
     success: "bg-[#98BC90] hover:bg-[#5EB756]",
@@ -23,8 +32,11 @@ export const Modal = ({
   const modalContent = (
     <div
       id="modal-overlay"
-      className="bg-black/50 fixed inset-0 z-[150] flex items-center justify-center animate-fadeIn"
-      onClick={(e) => e.target.id === "modal-overlay" && onClose()}
+      className={cn(
+        "bg-black/50 fixed inset-0 z-[150] flex items-center justify-center",
+        animateOut ? "animate_fadeOut" : "animate_fadeIn"
+      )}
+      onClick={(e) => e.target.id === "modal-overlay" && handleClose()}
     >
       <div
         id="modal"
@@ -45,7 +57,7 @@ export const Modal = ({
             <button
               aria-label="Close"
               className="text-2xl font-semibold text-gray-400 hover:text-red-700 cursor-pointer"
-              onClick={onClose}
+              onClick={handleClose}
             >
               &times;
             </button>
@@ -64,15 +76,16 @@ export const Modal = ({
           >
             <button
               className="flex-1 text-[12px] font-semibold text-[#888888] py-1 rounded-lg border border-[#888888] bg-transparent transition hover:bg-[#888888] hover:text-white"
-              onClick={onClose}
+              onClick={handleClose}
             >
               إلغاء
             </button>
             <button
               className={`flex-1 text-[12px] font-semibold text-white py-1 rounded-lg transition ${themeColors[theme]}`}
               onClick={onConfirm}
+              disabled={loading}
             >
-              {confirmText}
+              {loading ? "جارى " + confirmText + "..." : confirmText}
             </button>
           </footer>
         )}
@@ -80,7 +93,7 @@ export const Modal = ({
     </div>
   );
 
-  return createPortal(modalContent, document.getElementById("modal-root"));
+  return createPortal(modalContent, document.getElementById("portal-root"));
 };
 
 Modal.propTypes = {

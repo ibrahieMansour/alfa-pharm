@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Modal } from "./components/Modal";
+import { Offcanvas } from "./components/Offcanvas";
 import BlockModalIcon from "./assets/icons/block-modal-icon.svg";
 import ProductsModalIcon from "./assets/icons/products-modal.svg";
 import OrdersModalIcon from "./assets/icons/orders-modal.svg";
@@ -12,12 +13,11 @@ export default function App() {
   return (
     <>
       <button onClick={() => setOpen(true)}>Open Modal</button>
-
+      {/* {open && <Offcanvas onClose={() => setOpen(false)}>vb</Offcanvas>} */}
       {/* delete product modal */}
       {/* {open && (
         <Modal
           theme={"danger"}
-          cancelText={"إلغاء"}
           confirmText={"حذف"}
           onClose={() => setOpen(false)}
           onConfirm={() => alert("alert example")}
@@ -37,7 +37,6 @@ export default function App() {
         <Modal
           title="إضافة منتج جديد"
           icon={ProductsModalIcon}
-          cancelText={"إلغاء"}
           confirmText={"تأكيد"}
           width={550}
           onClose={() => setOpen(false)}
@@ -63,7 +62,6 @@ export default function App() {
         <Modal
           title="إضافة منتج للطلب"
           icon={OrdersModalIcon}
-          cancelText={"إلغاء"}
           confirmText={"إضافة"}
           width={550}
           onClose={() => setOpen(false)}
@@ -76,7 +74,6 @@ export default function App() {
         <Modal
           title="تحديث المنتج"
           icon={OrdersModalIcon}
-          cancelText={"إلغاء"}
           confirmText={"تأكيد"}
           width={550}
           onClose={() => setOpen(false)}

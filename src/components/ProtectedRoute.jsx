@@ -1,14 +1,10 @@
 import { Navigate, Outlet } from "react-router-dom";
 
-import { useSelector } from "react-redux";
-
 function ProtectedRoute() {
-  // const accessToken = localStorage.getItem("accessToken");
-  // const refreshToken = localStorage.getItem("refreshToken");
+  const access_token = localStorage.getItem("access_token");
+  const refresh_token = localStorage.getItem("refresh_token");
 
-  const { accessToken, refreshToken } = useSelector((state) => state.auth);
-
-  if (!accessToken || !refreshToken) {
+  if (!access_token || !refresh_token) {
     return <Navigate to="/signin" replace />;
   }
 

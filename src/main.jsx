@@ -11,10 +11,10 @@ import store from "./store/store.js";
 import "@/assets/styles/index.scss";
 
 createRoot(document.getElementById("root")).render(
-  <StrictMode>
+  // <StrictMode>
     <Provider store={store}>
       <App />
       {/* <App2 /> */}
     </Provider>
-  </StrictMode>
+  // </StrictMode>
 );

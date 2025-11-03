@@ -216,22 +216,55 @@
   }
 }
 
-.animate-fadeIn {
-  animation: fadeIn 0.3s ease-in-out;
+.animate_slideInUp {
+  animation: slideInUp 0.3s ease-out forwards;
+}
+.animate_slideOutDown {
+  animation: slideOutDown 0.3s ease-out forwards;
+}
+.animate_fadeIn {
+  animation: fadeIn 0.3s ease-out forwards;
+}
+.animate_fadeOut {
+  animation: fadeOut 0.3s ease-out forwards;
+}
+
+@keyframes slideInUp {
+  0% {
+    transform: translateY(100%);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+@keyframes slideOutDown {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(100%);
+  }
+}
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
 }
 
 @for $i from 1 through 10 {
   .animate-num-#{$i} {
     animation: myAnimation 3s linear calc(#{$i} / 2 * 1s) infinite;
-  }
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
   }
 }
 

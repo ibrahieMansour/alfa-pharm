@@ -1,42 +1,58 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { loginAdmin, logoutAdmin } from "./authThunks";
-
-const initialState = {
-  admin: JSON.parse(localStorage.getItem("admin")) || null,
-  accessToken: localStorage.getItem("accessToken") || null,
-  refreshToken: localStorage.getItem("refreshToken") || null,
-  status: "idle",
-  error: null,
-};
+import { loginAdmin, logoutAdmin, getAdminProfile } from "./authThunks";
 
 const authSlice = createSlice({
   name: "auth",
-  initialState,
+  initialState: {
+    user: null,
+    loading: false,
+    error: null,
+    isAuthenticated: !!localStorage.getItem("access_token"),
+  },
   reducers: {},
   extraReducers: (builder) => {
     builder
+      // --- login ---
       .addCase(loginAdmin.pending, (state) => {
-        state.status = "loading";
+        state.loading = true;
+        state.error = null;
       })
       .addCase(loginAdmin.fulfilled, (state, action) => {
-        const { admin, accessToken, refreshToken } = action.payload;
-        state.admin = admin;
-        state.accessToken = accessToken;
-        state.refreshToken = refreshToken;
-        state.status = "succeeded";
-        localStorage.setItem("admin", JSON.stringify(admin));
-        localStorage.setItem("accessToken", accessToken);
-        localStorage.setItem("refreshToken", refreshToken);
+        state.loading = false;
+        state.isAuthenticated = true;
       })
       .addCase(loginAdmin.rejected, (state, action) => {
-        state.status = "failed";
-        state.error = action.error.message;
+        state.loading = false;
+        state.error = action.payload;
+      })
+
+      // --- getProfile ---
+      .addCase(getAdminProfile.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getAdminProfile.fulfilled, (state, action) => {
+        state.loading = false;
+        // state.user = action.payload;
+        console.log(action.payload);
+      })
+      .addCase(getAdminProfile.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+
+      // --- logout ---
+      .addCase(logoutAdmin.pending, (state) => {
+        state.loading = true;
       })
       .addCase(logoutAdmin.fulfilled, (state) => {
-        state.admin = null;
-        state.accessToken = null;
-        state.refreshToken = null;
-        localStorage.clear();
+        state.loading = false;
+        state.isAuthenticated = false;
+        state.user = null;
+      })
+      .addCase(logoutAdmin.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
       });
   },
 });

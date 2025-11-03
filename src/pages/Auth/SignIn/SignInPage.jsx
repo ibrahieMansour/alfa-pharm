@@ -1,21 +1,28 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-import AuthHeading from "../AuthHeading ";
-import PhoneInput from "../PhoneInput ";
-import PasswordInput from "../PasswordInput ";
+import { useDispatch, useSelector } from "react-redux";
+import { loginAdmin, getAdminProfile } from "@/features/auth/authThunks";
+
+import AuthHeading from "../AuthHeading";
+import PhoneInput from "../PhoneInput";
+import PasswordInput from "../PasswordInput";
 import ErrorMessage from "../ErrorMessage";
+import axios from "axios";
 
 const SignInPage = () => {
+  const dispatch = useDispatch();
+  const { loading } = useSelector((state) => state.auth);
+
   const navigate = useNavigate("");
 
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState(false);
+  const [valid, setValid] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
-  const [isDisabled, setIsDisabled] = useState(false);
 
   const phonePattern = /^01[0125][0-9]{8}$/;
+
   useEffect(() => {
     if (!phone || !password) {
       setErrorMessage("الرجاء ملئ جميع البيانات");
@@ -29,30 +36,25 @@ const SignInPage = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    setError(true);
-    if (!phone || !password) {
-      setErrorMessage("الرجاء ملئ جميع البيانات");
-      return;
-    }
-    if (!phonePattern.test(phone)) {
-      setErrorMessage("رقم الهاتف غير صحيح");
-      return;
-    }
+    // setValid(true);
 
-    setError(false);
-    setErrorMessage("");
-    setIsDisabled(true);
+    // if (!phone || !password) return;
+    // if (!phonePattern.test(phone)) return;
 
-    setTimeout(() => {
-      console.log("phone : ", phone);
-      console.log("password : ", password);
+    // setValid(false);
+    // setErrorMessage("");
 
-      setPhone("");
-      setPassword("");
-      navigate("/products");
-      //finally
-      setIsDisabled(false);
-    }, 3000);
+    dispatch(loginAdmin({ phone, password }))
+      .unwrap()
+      .then(() => {
+        setPhone("");
+        setPassword("");
+        navigate("/products");
+      })
+      .catch(() => {
+        setValid(true);
+        setErrorMessage("الهاتف او كلمه المرور غير صحيح");
+      });
   };
 
   return (
@@ -64,25 +66,19 @@ const SignInPage = () => {
         />
 
         <form onSubmit={handleSubmit}>
-          <PhoneInput phone={phone} setPhone={setPhone} error={error} label="رقم الهاتف" />
+          <PhoneInput phone={phone} setPhone={setPhone} error={valid} label="رقم الهاتف" />
 
           <PasswordInput
             password={password}
             setPassword={setPassword}
-            error={error}
+            error={valid}
             label="كلمة المرور"
           />
 
-          <ErrorMessage error={error} message={errorMessage} />
+          <ErrorMessage error={valid} message={errorMessage} />
 
-          <div className="flex flex-row-reverse mb-3">
-            <Link to="/forget-password" className="auth-link">
-              هل نسيت كلمة السر؟
-            </Link>
-          </div>
-
-          <button type="submit" className="auth-button" disabled={isDisabled}>
-            {isDisabled ? "جارى التسجيل..." : "تسجيل الدخول"}
+          <button type="submit" className="auth-button mt-3" disabled={loading}>
+            {loading ? "جارى التسجيل..." : "تسجيل الدخول"}
           </button>
         </form>
       </div>
