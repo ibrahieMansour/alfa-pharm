@@ -5,48 +5,9 @@ import { cn } from "@/utils/cn";
 
 import Avatar from "@/assets/images/avatar.png";
 import MenuBars from "@/assets/icons/menu-bars.svg";
-import SearchIcon from "@/assets/icons/search.svg";
 import BellIcon from "@/assets/icons/bell.svg";
-import { useSelector } from "react-redux";
-import axios from "axios";
-
-import { BASE_URL } from "@/api/config";
 
 export const Header = ({ collapsed, setCollapsed, isDesktopDevice }) => {
-  const store = useSelector((state) => state.auth);
-
-  const handle = () => {
-    const access_token = localStorage.getItem("access_token");
-    console.log("Token:", access_token);
-
-    setTimeout(() => {
-      axios
-        .post(
-          `${BASE_URL}/users/create`,
-          {
-            phone: "201144138477",
-            name: "dfghdfgdfsgdfdfgfdgdfgdfgdf",
-            password: "P@ssw0rd",
-            address: "addrefdgfdgdfgss fdgfd",
-          },
-          {
-            headers: {
-              Authorization: `Bearer ${access_token}`,
-            },
-          }
-        )
-        .then((res) => {
-          console.log(res);
-        })
-        .catch((err) => {
-          console.error("Error:", err.response ? err.response.data : err.message);
-        })
-        .finally(() => {
-          console.log("Request finished");
-        });
-    }, 3000);
-  };
-
   return (
     <header
       className={cn(
@@ -68,32 +29,6 @@ export const Header = ({ collapsed, setCollapsed, isDesktopDevice }) => {
         <button className="btn-ghost" onClick={() => setCollapsed(!collapsed)}>
           <img src={MenuBars} alt="menu-bars-icon" className="w-4 h-3 rotate-180" />
         </button>
-        <button className="btn-ghost" onClick={handle}>
-          redux
-        </button>
-        {/* {!isDesktopDevice ? (
-          <button className="btn-ghost" onClick={() => {}}>
-            <img src={SearchIcon} alt="search-icon" className="w-5 h-5" />
-          </button>
-        ) : (
-          <div className="input">
-            <img src={SearchIcon} alt="" className="size-5" />
-            <input
-              type="text"
-              name="search"
-              id="search"
-              placeholder="بحث..."
-              className="w-full bg-transparent text-[#888] outline-0 placeholder:text-[#888]"
-            />
-            <button
-              type="button"
-              className="text-white bg-[#5eb756] font-bold rounded-md text-xs px-2 py-1"
-            >
-              بحث
-            </button>
-
-          </div>
-        )} */}
       </div>
       <div className="flex items-center gap-x-3">
         <Link to="/orders" className="btn-ghost relative">

@@ -1,7 +1,10 @@
+import { useEffect } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
-import ProtectedRoute from "@/components/ProtectedRoute";
-import PublicRoute from "@/components/PublicRoute";
+import { getAdminProfile } from "@/features/auth/authThunks";
+
+import { ProtectedRoute, PublicRoute } from "@/components/Protected";
 
 import AuthLayout from "@/components/layout/AuthLayout";
 import DashboardLayout from "@/components/layout/DashboardLayout";
@@ -10,31 +13,20 @@ import SignInPage from "@/pages/Auth/SignIn/SignInPage";
 
 import ProductsPage from "@/pages/Products/ProductsPage";
 import OrdersPage from "@/pages/Orders/OrdersPage";
-import CustomersPage from "@/pages/Customers/CustomersPage";
+import UsersPage from "@/pages/Users/UsersPage";
 import UserDetailsPage from "@/pages/UserDetails/UserDetailsPage";
 import StaffPage from "@/pages/Staff/StaffPage";
 import NotFoundPage from "@/pages/NotFound/NotFoundPage";
-import { useEffect } from "react";
 
 function App() {
+  const dispatch = useDispatch();
+
   useEffect(() => {
-    const checkTokens = () => {
-      const access_token = localStorage.getItem("access_token");
-      const refresh_token = localStorage.getItem("refresh_token");
-
-      if (!access_token || !refresh_token) {
-        localStorage.clear();
-        window.location.href = "/";
-      }
-    };
-
-    // check every load and listen for changes
-    window.addEventListener("storage", checkTokens);
-
-    return () => {
-      window.removeEventListener("storage", checkTokens);
-    };
-  }, []);
+    const access_token = localStorage.getItem("access_token");
+    if (access_token) {
+      dispatch(getAdminProfile());
+    }
+  }, [dispatch]);
 
   return (
     <>
@@ -52,8 +44,8 @@ function App() {
             <Route element={<DashboardLayout />}>
               <Route path="/products" element={<ProductsPage />} />
               <Route path="/orders" element={<OrdersPage />} />
-              <Route path="/customers">
-                <Route index element={<CustomersPage />} />
+              <Route path="/users">
+                <Route index element={<UsersPage />} />
                 <Route path=":id" element={<UserDetailsPage />} />
               </Route>
               <Route path="/staff" element={<StaffPage />} />

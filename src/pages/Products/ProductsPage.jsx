@@ -2,34 +2,33 @@ import axios from "axios";
 import { useEffect } from "react";
 import { BASE_URL } from "@/api/config";
 const ProductsPage = () => {
-  useEffect(() => {
-    const access_token = localStorage.getItem("access_token");
-    console.log("Token:", access_token);
+  // useEffect(() => {
+  //   const access_token = localStorage.getItem("access_token");
+  //   console.log("Token:", access_token);
 
-    setTimeout(() => {
-      axios
-        // .get(`${BASE_URL}/users/list?page=1&limit=10`, {
-        .get(`${BASE_URL}/admin/profile`, {
-          headers: {
-            Authorization: `Bearer ${access_token}`,
-            // "Content-Type": "application/json",
-            // "ngrok-skip-browser-warning": "true", // 👈 add this
-          },
-        })
-        .then((res) => {
-          console.log(res.data);
-          console.log(res.status);
-          console.log(res.headers);
-        })
-        .catch((err) => {
-          console.error("Error:", err.response ? err.response.data : err.message);
-        })
-        .finally(() => {
-          console.log("Request finished");
-        });
-    }, 3000);
-  }, []);
-
+  //   setTimeout(() => {
+  //     axios
+  //       // .get(`${BASE_URL}/users/list?page=1&limit=10`, {
+  //       .get(`${BASE_URL}/admin/profile`, {
+  //         headers: {
+  //           Authorization: `Bearer ${access_token}`,
+  //           "ngrok-skip-browser-warning": "true", // 👈 add this
+  //         },
+  //       })
+  //       .then((res) => {
+  //         console.log(res.data);
+  //         console.log(res.status);
+  //         console.log(res.headers);
+  //       })
+  //       .catch((err) => {
+  //         console.error("Error:", err.response ? err.response.data : err.message);
+  //       })
+  //       .finally(() => {
+  //         console.log("Request finished");
+  //       });
+  //   }, 3000);
+  // }, []);
+  
   return (
     <>
       <div className="flex w-full h-full flex-col gap-y-2 p-4">

@@ -14,6 +14,7 @@ export const Modal = ({
   onClose = () => {},
   onConfirm = () => {},
   loading = false,
+  loadingText = "جارى التأكيد...",
   children,
   ...props
 }) => {
@@ -25,8 +26,9 @@ export const Modal = ({
   };
 
   const themeColors = {
-    danger: "bg-[#D22F27] hover:bg-[#99231d]",
-    success: "bg-[#98BC90] hover:bg-[#5EB756]",
+    danger: "bg-[#D22F27]",
+    outline_danger: "border border-[#D22F27] text-[#D22F27] bg-transparent",
+    success: "bg-[#5EB756]",
   };
 
   const modalContent = (
@@ -81,11 +83,14 @@ export const Modal = ({
               إلغاء
             </button>
             <button
-              className={`flex-1 text-[12px] font-semibold text-white py-1 rounded-lg transition ${themeColors[theme]}`}
+              className={cn(
+                `flex-1 text-[12px] font-semibold text-white py-1 rounded-lg transition ${themeColors[theme]}`,
+                loading && "opacity-70"
+              )}
               onClick={onConfirm}
               disabled={loading}
             >
-              {loading ? "جارى " + confirmText + "..." : confirmText}
+              {loading ? loadingText : confirmText}
             </button>
           </footer>
         )}

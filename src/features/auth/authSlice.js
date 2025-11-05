@@ -1,15 +1,22 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { loginAdmin, logoutAdmin, getAdminProfile } from "./authThunks";
 
+const initialState = {
+  user: null,
+  loading: false,
+  error: null,
+  isAuthenticated: !!localStorage.getItem("access_token"),
+};
+
 const authSlice = createSlice({
   name: "auth",
-  initialState: {
-    user: null,
-    loading: false,
-    error: null,
-    isAuthenticated: !!localStorage.getItem("access_token"),
+  initialState,
+  reducers: {
+    restoreSession: (state, action) => {
+      state.user = action.payload;
+      state.isAuthenticated = true;
+    },
   },
-  reducers: {},
   extraReducers: (builder) => {
     builder
       // --- login ---
@@ -33,7 +40,7 @@ const authSlice = createSlice({
       })
       .addCase(getAdminProfile.fulfilled, (state, action) => {
         state.loading = false;
-        // state.user = action.payload;
+        state.user = action.payload;
         console.log(action.payload);
       })
       .addCase(getAdminProfile.rejected, (state, action) => {

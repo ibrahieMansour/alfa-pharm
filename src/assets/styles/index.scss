@@ -159,7 +159,7 @@
 
     .table {
       @apply h-full w-full text-slate-900 text-center;
-      &.customers-table {
+      &.users-table {
         .table-cell:nth-of-type(1) {
           @apply min-w-[50px] w-[75px];
         }
@@ -191,9 +191,9 @@
     }
 
     .table-cell {
-      @apply w-fit whitespace-nowrap overflow-hidden text-ellipsis py-3 text-[10px] font-medium bg-white;
+      @apply w-fit whitespace-nowrap overflow-hidden text-ellipsis py-1 text-[10px] font-medium bg-white;
       & .ban-btn {
-        @apply w-[60px] py-1 font-bold border border-[#FA0404] rounded-md;
+        @apply w-[60px] py-0.5 font-bold border border-[#FA0404] rounded-md;
         &.ban {
           @apply bg-[#fa04041a];
         }

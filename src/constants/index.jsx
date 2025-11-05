@@ -17,7 +17,7 @@ export const sideBarNav = [
   {
     title: "المستخدمين",
     icon: Users,
-    path: "/customers",
+    path: "/users",
   },
   {
     title: "المسؤولين",

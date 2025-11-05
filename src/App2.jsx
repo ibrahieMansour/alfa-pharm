@@ -6,13 +6,15 @@ import ProductsModalIcon from "./assets/icons/products-modal.svg";
 import OrdersModalIcon from "./assets/icons/orders-modal.svg";
 import UsersModalIcon from "./assets/icons/users-modal.svg";
 import StaffModalIcon from "./assets/icons/staff-modal.svg";
+// import GenerateButton from "./components/Gnerate";
 
 export default function App() {
   const [open, setOpen] = useState(true);
 
   return (
     <>
-      <button onClick={() => setOpen(true)}>Open Modal</button>
+      {/* <button onClick={() => setOpen(true)}>Open Modal</button> */}
+      {/* <GenerateButton/> */}
       {/* {open && <Offcanvas onClose={() => setOpen(false)}>vb</Offcanvas>} */}
       {/* delete product modal */}
       {/* {open && (

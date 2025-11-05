@@ -1,16 +1,20 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
-import { orders } from "@/constant";
+// import { orders } from "@/constant";
 import { statusStyles } from "@/constants/index";
 
 import { cn } from "@/utils/cn";
+import { formatDate } from "@/utils/formatDate";
 
 import LeftAngle from "../../assets/icons/left-angle-colored.svg";
 import RightArrow from "../../assets/icons/right-arrow-black.svg";
 import OrderError from "../../assets/icons/no-order.svg";
+import { useSelector } from "react-redux";
 
 const UserOrdersInfo = () => {
+  const { currentUser } = useSelector((state) => state.users);
+
   const [selectedOrder, setSelectedOrder] = useState(null);
 
   const handleSelect = (order) => {
@@ -23,7 +27,7 @@ const UserOrdersInfo = () => {
   const handleBack = () => setSelectedOrder(null);
 
   // if (true) {
-  if (!orders || orders.length === 0) {
+  if (!currentUser?.orders || currentUser?.orders.length === 0) {
     return (
       <>
         <div className="w-full h-full flex flex-col justify-center items-center">
@@ -53,7 +57,7 @@ const UserOrdersInfo = () => {
             </Link>
           </div>
           <div className="flex flex-col gap-y-2">
-            {orders.map((order) => (
+            {currentUser?.orders.map((order) => (
               <div
                 key={order.id}
                 onClick={() => handleSelect(order)}
@@ -86,16 +90,14 @@ const UserOrdersInfo = () => {
                     </div>
                   </div>
                   <div className="flex justify-between items-center">
-                    <p className="text-[11px] font-bold">رقم الطلب</p>
-                    <p className="text-[11px] font-bold text-[#93A0B9]">{order.code}</p>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <p className="text-[11px] font-bold">تاريخ الطلب </p>
-                    <p className="text-[11px] font-bold text-[#93A0B9]">{order.date}</p>
+                    <p className="text-[11px] font-bold">تاريخ الطلب</p>
+                    <p className="text-[11px] font-bold text-[#93A0B9]">
+                      {formatDate(order.createdAt, "ar-EG")}
+                    </p>
                   </div>
                   <div className="flex justify-between items-center">
                     <p className="text-[11px] font-bold">المبلغ الكلي</p>
-                    <p className="text-[14px] font-bold">{order.total} ج.م</p>
+                    <p className="text-[14px] font-bold">{order.totalAmount} ج.م</p>
                   </div>
                 </div>
               </div>
@@ -124,13 +126,15 @@ const UserOrdersInfo = () => {
                 <div className="inline-flex flex-col gap-y-2">
                   {selectedOrder.items.map((e) => (
                     <div key={e.id} className="flex gap-x-4">
-                      <img src={e.image} alt="" className="w-16 h-16 rounded-2xl" />
+                      <img src={e.product.image} alt="" className="w-16 h-16 rounded-2xl" />
                       <div className="flex flex-col gap-y-1">
-                        <p className="font-semibold text-[11px] text-[#121111]">{e.name}</p>
+                        <p className="font-semibold text-[11px] text-[#121111]">{e.product.name}</p>
                         <p className="font-semibold text-[11px] text-[#121111]">
-                          الكمية: {e.count}
+                          الكمية: {e.quantity}
                         </p>
-                        <p className="font-semibold text-[11px] text-[#121111]">{e.price} ج.م</p>
+                        <p className="font-semibold text-[11px] text-[#121111]">
+                          {e.product.price} ج.م
+                        </p>
                       </div>
                     </div>
                   ))}
