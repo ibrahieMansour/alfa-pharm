@@ -8,7 +8,7 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "update": "git add . && git commit -m \"update: $(date '+%Y-%m-%d %H:%M')\" && git push"
+    "update": "git add . && git commit -m \"update: %date% %time%\" && git push"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.9.0",
