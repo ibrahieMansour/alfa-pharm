@@ -36,7 +36,16 @@ const AddUserModal = ({ onConfirm, onClose, loading }) => {
       return false;
     }
 
-    // 3️⃣ Confirm password matches
+    // 3️⃣ Password validation (min 8 chars, upper, lower, number, symbol)
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/;
+    if (!passwordRegex.test(password)) {
+      setError(
+        "كلمة المرور يجب أن تحتوي على 8 أحرف على الأقل وتشمل حرفًا كبيرًا وصغيرًا ورقمًا ورمزًا خاصًا"
+      );
+      return false;
+    }
+
+    // 4️⃣ Confirm password matches
     if (password !== confirmPassword) {
       setError("كلمتا المرور غير متطابقتين");
       return false;

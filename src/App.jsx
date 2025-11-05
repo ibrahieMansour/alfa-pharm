@@ -33,24 +33,24 @@ function App() {
       <BrowserRouter>
         <Routes>
           {/* Public routes (only when logged out) */}
-          <Route element={<PublicRoute />}>
-            <Route element={<AuthLayout />}>
-              <Route path="/signin" element={<SignInPage />} />
-            </Route>
+          {/* <Route element={<PublicRoute />}> */}
+          <Route element={<AuthLayout />}>
+            <Route path="/signin" element={<SignInPage />} />
           </Route>
+          {/* </Route> */}
 
           {/* Protected routes (only when logged in) */}
-          <Route element={<ProtectedRoute />}>
-            <Route element={<DashboardLayout />}>
-              <Route path="/products" element={<ProductsPage />} />
-              <Route path="/orders" element={<OrdersPage />} />
-              <Route path="/users">
-                <Route index element={<UsersPage />} />
-                <Route path=":id" element={<UserDetailsPage />} />
-              </Route>
-              <Route path="/staff" element={<StaffPage />} />
+          {/* <Route element={<ProtectedRoute />}> */}
+          <Route element={<DashboardLayout />}>
+            <Route path="/products" element={<ProductsPage />} />
+            <Route path="/orders" element={<OrdersPage />} />
+            <Route path="/users">
+              <Route index element={<UsersPage />} />
+              <Route path=":id" element={<UserDetailsPage />} />
             </Route>
+            <Route path="/staff" element={<StaffPage />} />
           </Route>
+          {/* </Route> */}
 
           {/* Redirects */}
           <Route path="/" element={<Navigate to="/signin" replace />} />
