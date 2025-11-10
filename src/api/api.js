@@ -53,7 +53,6 @@ api.interceptors.response.use(
         originalRequest.headers.Authorization = `Bearer ${newAccess}`;
         return api(originalRequest);
       } catch (err) {
-        console.log("error");
         localStorage.clear();
         window.location.href = "/signin";
         return Promise.reject(err);

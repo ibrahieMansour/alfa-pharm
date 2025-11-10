@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 // import PropTypes from "prop-types";
 import { cn } from "@/utils/cn";
@@ -35,9 +35,16 @@ export const Header = ({ collapsed, setCollapsed, isDesktopDevice }) => {
           <img src={BellIcon} alt="" className="w-5 h-5" />
           <div className="absolute w-3 h-3 bg-red-600 right-0 top-0 translate-x-1/4 -translate-y-1/4 rounded-full"></div>
         </Link>
-        <div className="size-10 rounded-full overflow-hidden border-2 border-green-600">
+        <NavLink
+          to="/profile"
+          className={({ isActive }) =>
+            `size-10 rounded-full overflow-hidden border-2 ${
+              isActive ? "border-[#e97e39]" : "border-green-600"
+            }`
+          }
+        >
           <img src={Avatar} alt="user-avatar" className="w-full h-full" />
-        </div>
+        </NavLink>
       </div>
     </header>
   );

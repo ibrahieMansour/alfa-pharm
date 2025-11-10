@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import { getAdminProfile } from "@/features/auth/authThunks";
 
@@ -12,14 +12,17 @@ import DashboardLayout from "@/components/layout/DashboardLayout";
 import SignInPage from "@/pages/Auth/SignIn/SignInPage";
 
 import ProductsPage from "@/pages/Products/ProductsPage";
-import OrdersPage from "@/pages/Orders/OrdersPage";
 import UsersPage from "@/pages/Users/UsersPage";
 import UserDetailsPage from "@/pages/UserDetails/UserDetailsPage";
-import StaffPage from "@/pages/Staff/StaffPage";
+import OrdersPage from "@/pages/Orders/OrdersPage";
+import OrderDetailsPage from "./pages/OrderDetails/OrderDetailsPage";
+import AdminsPage from "./pages/Admins/AdminsPage";
 import NotFoundPage from "@/pages/NotFound/NotFoundPage";
+import ProfilePage from "./pages/Profile/ProfilePage";
 
 function App() {
   const dispatch = useDispatch();
+  const { admin, loading } = useSelector((state) => state.auth);
 
   useEffect(() => {
     const access_token = localStorage.getItem("access_token");
@@ -27,7 +30,6 @@ function App() {
       dispatch(getAdminProfile());
     }
   }, [dispatch]);
-
   return (
     <>
       <BrowserRouter>
@@ -43,12 +45,16 @@ function App() {
           <Route element={<ProtectedRoute />}>
             <Route element={<DashboardLayout />}>
               <Route path="/products" element={<ProductsPage />} />
-              <Route path="/orders" element={<OrdersPage />} />
               <Route path="/users">
                 <Route index element={<UsersPage />} />
                 <Route path=":id" element={<UserDetailsPage />} />
               </Route>
-              <Route path="/staff" element={<StaffPage />} />
+              <Route path="/orders">
+                <Route index element={<OrdersPage />} />
+                <Route path=":id" element={<OrderDetailsPage />} />
+              </Route>
+              {admin.role === "ADMIN" && <Route path="/admins" element={<AdminsPage />} />}
+              <Route path="/profile" element={<ProfilePage />} />
             </Route>
           </Route>
 

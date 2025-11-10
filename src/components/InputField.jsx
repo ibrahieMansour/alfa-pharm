@@ -1,21 +1,8 @@
-// const InputField = ({ id, label, type = "text", value, onChange }) => {
-//   return (
-//     <div className="field">
-//       <label htmlFor={id} className="label">
-//         {label}
-//       </label>
-//       <input id={id} type={type} className="input" value={value} onChange={onChange} />
-//     </div>
-//   );
-// };
-
-// export default InputField;
-
 import { useState } from "react";
 import EyeIcon from "@/assets/icons/eye.svg";
 import EyeSlashIcon from "@/assets/icons/eye-slash.svg";
 
-const InputField = ({ id, label, type = "text", maxLength = 50, value, onChange }) => {
+const InputField = ({ id, label, type = "text", maxLength = 50, value, onChange, ...props }) => {
   const [showPassword, setShowPassword] = useState(false);
 
   const isPassword = type === "password";
@@ -33,6 +20,7 @@ const InputField = ({ id, label, type = "text", maxLength = 50, value, onChange 
           value={value}
           onChange={onChange}
           maxLength={maxLength}
+          {...props}
         />
         {isPassword && (
           <button

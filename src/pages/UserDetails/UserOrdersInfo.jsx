@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 
 // import { orders } from "@/constant";
@@ -11,10 +11,9 @@ import LeftAngle from "../../assets/icons/left-angle-colored.svg";
 import RightArrow from "../../assets/icons/right-arrow-black.svg";
 import OrderError from "../../assets/icons/no-order.svg";
 import { useSelector } from "react-redux";
-
+import DefaultImage from "@/assets/images/default-image.png";
 const UserOrdersInfo = () => {
   const { currentUser } = useSelector((state) => state.users);
-
   const [selectedOrder, setSelectedOrder] = useState(null);
 
   const handleSelect = (order) => {
@@ -92,7 +91,7 @@ const UserOrdersInfo = () => {
                   <div className="flex justify-between items-center">
                     <p className="text-[11px] font-bold">تاريخ الطلب</p>
                     <p className="text-[11px] font-bold text-[#93A0B9]">
-                      {formatDate(order.createdAt, "ar-EG")}
+                      {formatDate(order.createdAt)}
                     </p>
                   </div>
                   <div className="flex justify-between items-center">
@@ -126,14 +125,21 @@ const UserOrdersInfo = () => {
                 <div className="inline-flex flex-col gap-y-2">
                   {selectedOrder.items.map((e) => (
                     <div key={e.id} className="flex gap-x-4">
-                      <img src={e.product.image} alt="" className="w-16 h-16 rounded-2xl" />
+                      <img
+                        src={e?.product.image || DefaultImage}
+                        alt="avatar-image"
+                        className="w-16 h-16 rounded-2xl"
+                        onError={(e) => {
+                          e.currentTarget.src = DefaultImage;
+                        }}
+                      />
                       <div className="flex flex-col gap-y-1">
                         <p className="font-semibold text-[11px] text-[#121111]">{e.product.name}</p>
                         <p className="font-semibold text-[11px] text-[#121111]">
                           الكمية: {e.quantity}
                         </p>
                         <p className="font-semibold text-[11px] text-[#121111]">
-                          {e.product.price} ج.م
+                          {e.price} ج.م
                         </p>
                       </div>
                     </div>

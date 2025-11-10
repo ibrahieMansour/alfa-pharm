@@ -35,7 +35,6 @@ const PhoneStep = ({ setStep, phone, setPhone }) => {
     setIsDisabled(true);
 
     setTimeout(() => {
-      console.log("phone : ", phone);
 
       setStep((prev) => prev + 1);
       //finally

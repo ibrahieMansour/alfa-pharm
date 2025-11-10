@@ -46,8 +46,6 @@ const NewPasswordStep = ({ setStep }) => {
     setIsDisabled(true);
 
     setTimeout(() => {
-      console.log("password : ", password);
-      console.log("confirm-password : ", confirmPassword);
 
       setStep((prev) => prev + 1);
       //finally

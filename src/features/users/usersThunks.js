@@ -14,10 +14,12 @@ export const fetchUsers = createAsyncThunk(
 );
 export const searchUsersThunk = createAsyncThunk(
   "users/search",
-  async ({ search, searchPhone }, thunkAPI) => {
+  async ({ search, searchPhone, page = 1, limit = 10 } = {}, thunkAPI) => {
     try {
-      const res = await api.get(`/users/search?search=${search}&searchPhone=${searchPhone}`);
-      return res.data.data;
+      const res = await api.get(
+        `/users/search?search=${search}&searchPhone=${searchPhone}&page=${page}&limit=${limit}`
+      );
+      return res.data;
     } catch (err) {
       return thunkAPI.rejectWithValue(err.response?.data || err.message);
     }

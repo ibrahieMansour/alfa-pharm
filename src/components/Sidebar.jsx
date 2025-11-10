@@ -15,13 +15,11 @@ import LogoutModalIcon from "@/assets/icons/logout-modal-icon.svg";
 
 export const Sidebar = forwardRef(({ collapsed, setCollapsed, isDesktopDevice }, ref) => {
   const dispatch = useDispatch();
-  const { loading } = useSelector((state) => state.auth);
+  const { admin, loading } = useSelector((state) => state.auth);
 
   const [isOpen, setIsOpen] = useState(false);
 
   const [hoverExpanded, setHoverExpanded] = useState(false);
-
-  const navigate = useNavigate("");
 
   const handleMouseEnter = () => {
     if (isDesktopDevice && collapsed) {
@@ -59,16 +57,19 @@ export const Sidebar = forwardRef(({ collapsed, setCollapsed, isDesktopDevice },
         </div>
         <div className="flex w-full flex-1 flex-col gap-y-4 overflow-y-auto overflow-x-hidden p-3 [scrollbar-width:_thin]">
           <nav className={cn("sidebar-group", collapsed && "md:items-center")}>
-            {sideBarNav.map((e) => (
-              <NavLink
-                key={e.title}
-                to={e.path}
-                className={cn("sidebar-item", collapsed && "md:w-[50px]")}
-              >
-                <e.icon className="w-5 h-5" />
-                {!collapsed && <p className="whitespace-nowrap">قائمة {e.title}</p>}
-              </NavLink>
-            ))}
+            {sideBarNav.map((e) => {
+              if (e.roleNeed === "ADMIN" && admin?.role !== "ADMIN") return null;
+              return (
+                <NavLink
+                  key={e.title}
+                  to={e.path}
+                  className={cn("sidebar-item", collapsed && "md:w-[50px]")}
+                >
+                  <e.icon className="w-5 h-5" />
+                  {!collapsed && <p className="whitespace-nowrap">قائمة {e.title}</p>}
+                </NavLink>
+              );
+            })}
           </nav>
         </div>
         <div className="p-3">

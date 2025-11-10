@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { loginAdmin, logoutAdmin, getAdminProfile } from "./authThunks";
 
 const initialState = {
-  user: null,
+  admin: {},
   loading: false,
   error: null,
   isAuthenticated: !!localStorage.getItem("access_token"),
@@ -11,12 +11,7 @@ const initialState = {
 const authSlice = createSlice({
   name: "auth",
   initialState,
-  reducers: {
-    restoreSession: (state, action) => {
-      state.user = action.payload;
-      state.isAuthenticated = true;
-    },
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder
       // --- login ---
@@ -31,6 +26,7 @@ const authSlice = createSlice({
       .addCase(loginAdmin.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
+        state.isAuthenticated = false;
       })
 
       // --- getProfile ---
@@ -40,12 +36,12 @@ const authSlice = createSlice({
       })
       .addCase(getAdminProfile.fulfilled, (state, action) => {
         state.loading = false;
-        state.user = action.payload;
-        console.log(action.payload);
+        state.admin = action.payload;
       })
       .addCase(getAdminProfile.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
+        state.isAuthenticated = false;
       })
 
       // --- logout ---
@@ -55,7 +51,7 @@ const authSlice = createSlice({
       .addCase(logoutAdmin.fulfilled, (state) => {
         state.loading = false;
         state.isAuthenticated = false;
-        state.user = null;
+        state.admin = null;
       })
       .addCase(logoutAdmin.rejected, (state, action) => {
         state.loading = false;

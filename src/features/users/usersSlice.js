@@ -24,7 +24,9 @@ const userSlice = createSlice({
     builder
       // ✅ List users
       .addCase(fetchUsers.pending, (state) => {
-        state.loading = true;
+        if (!state.users.length) {
+          state.loading = true;
+        }
         state.currentUser = null;
       })
       .addCase(fetchUsers.fulfilled, (state, { payload }) => {
@@ -39,8 +41,10 @@ const userSlice = createSlice({
       })
 
       // 🔍 Search users
-      .addCase(searchUsersThunk.fulfilled, (state, action) => {
-        state.users = action.payload.data || action.payload;
+      .addCase(searchUsersThunk.fulfilled, (state, { payload }) => {
+        const { data, meta } = payload;
+        state.users = data;
+        state.meta = meta;
       })
 
       // 👤 Get user by ID
@@ -53,14 +57,6 @@ const userSlice = createSlice({
         state.currentUser = action.payload.data || action.payload;
       })
 
-      // ➕ Create user
-      .addCase(createUserThunk.fulfilled, (state, action) => {
-        if (state.users.length === 10) {
-          state.users.unshift(action.payload);
-          state.users.pop();
-        }
-      })
-
       // ✏️ Update user
       .addCase(updateUserThunk.fulfilled, (state, { payload }) => {
         const { id, suspend } = payload;
@@ -71,11 +67,6 @@ const userSlice = createSlice({
         if (state.currentUser?.id === id) {
           state.currentUser.suspend = suspend;
         }
-      })
-
-      // 🗑️ Delete user
-      .addCase(deleteUserThunk.fulfilled, (state, action) => {
-        state.users = state.users.filter((u) => u.id !== action.payload);
       });
   },
 });

@@ -5,8 +5,10 @@ import BlockModalIcon from "./assets/icons/block-modal-icon.svg";
 import ProductsModalIcon from "./assets/icons/products-modal.svg";
 import OrdersModalIcon from "./assets/icons/orders-modal.svg";
 import UsersModalIcon from "./assets/icons/users-modal.svg";
-import StaffModalIcon from "./assets/icons/staff-modal.svg";
+import AdminsModalIcon from "./assets/icons/admins-modal.svg";
 // import GenerateButton from "./components/Gnerate";
+
+import api from "@/api/api";
 
 export default function App() {
   const [open, setOpen] = useState(true);

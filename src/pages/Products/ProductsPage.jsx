@@ -1,82 +1,224 @@
-import axios from "axios";
-import { useEffect } from "react";
-import { BASE_URL } from "@/api/config";
-const ProductsPage = () => {
-  // useEffect(() => {
-  //   const access_token = localStorage.getItem("access_token");
-  //   console.log("Token:", access_token);
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useMediaQuery } from "@uidotdev/usehooks";
 
-  //   setTimeout(() => {
-  //     axios
-  //       // .get(`${BASE_URL}/users/list?page=1&limit=10`, {
-  //       .get(`${BASE_URL}/admin/profile`, {
-  //         headers: {
-  //           Authorization: `Bearer ${access_token}`,
-  //           "ngrok-skip-browser-warning": "true", // 👈 add this
-  //         },
-  //       })
-  //       .then((res) => {
-  //         console.log(res.data);
-  //         console.log(res.status);
-  //         console.log(res.headers);
-  //       })
-  //       .catch((err) => {
-  //         console.error("Error:", err.response ? err.response.data : err.message);
-  //       })
-  //       .finally(() => {
-  //         console.log("Request finished");
-  //       });
-  //   }, 3000);
-  // }, []);
-  
+import {
+  fetchProducts,
+  searchProductsThunk,
+  createProductThunk,
+  updateProductThunk,
+  deleteProductThunk,
+} from "@/features/products/productsThunks";
+
+import ProductsTable from "./ProductsTable";
+import AddProductModal from "./AddProductModal";
+import ViewProductModal from "./ViewProductModal";
+import UpdateProductModal from "./UpdateProductModal";
+import DeleteProductModal from "./DeleteProductModal";
+import ProductsSearch from "./ProductsSearch";
+
+import CardHeader from "@/components/CardHeader";
+import Pagination from "@/components/Pagination";
+import { Offcanvas } from "@/components/Offcanvas";
+
+const ProductsPage = () => {
+  const isDesktopDevice = useMediaQuery("(min-width: 480px)");
+  const dispatch = useDispatch();
+  const { products, meta } = useSelector((state) => state.products);
+
+  const [isAddOpen, setIsAddOpen] = useState(false);
+  const [isViewOpen, setIsViewOpen] = useState(false);
+  const [isUpdateOpen, setIsUpdateOpen] = useState(false);
+  const [isDeleteOpen, setIsDeleteOpen] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [loading, setLoading] = useState(false);
+
+  const [page, setPage] = useState(() => {
+    const savedPage = localStorage.getItem("products_page");
+    return savedPage ? Number(savedPage) : 1;
+  });
+
+  useEffect(() => {
+    localStorage.setItem("products_page", page);
+  }, [page]);
+
+  const [filters, setFilters] = useState({ name: "" });
+  const [isSearching, setIsSearching] = useState(false);
+
+  useEffect(() => {
+    if (isSearching) {
+      dispatch(
+        searchProductsThunk({
+          search: filters.name,
+          page,
+        })
+      );
+    } else {
+      dispatch(fetchProducts({ page }));
+    }
+  }, [page, dispatch, isSearching]);
+
+  const closeModal = () => {
+    setSelectedProduct(null);
+    setIsAddOpen(false);
+    setIsViewOpen(false);
+    setIsUpdateOpen(false);
+    setIsDeleteOpen(false);
+  };
+
+  const handleAddProduct = (data) => {
+    setLoading(true);
+    dispatch(createProductThunk(data))
+      .unwrap()
+      .then(() => {
+        setIsAddOpen(false);
+        dispatch(fetchProducts({ page }));
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
+
+  const handleUpdateProduct = (data) => {
+    setLoading(true);
+    dispatch(updateProductThunk({ id: selectedProduct.id, data }))
+      .unwrap()
+      .then(() => {
+        setIsUpdateOpen(false);
+        dispatch(fetchProducts({ page }));
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
+
+  const handleDeleteProduct = () => {
+    setLoading(true);
+    dispatch(deleteProductThunk(selectedProduct.id))
+      .unwrap()
+      .then(() => {
+        setIsDeleteOpen(false);
+        dispatch(fetchProducts({ page }));
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
+
+  const handleSearch = () => {
+    if (open) setOpen(false);
+    if (!filters.name) return;
+
+    setIsSearching(true);
+    setPage(1);
+    dispatch(
+      searchProductsThunk({
+        search: filters.name,
+        page: 1,
+      })
+    );
+  };
+
+  const handleCancelSearch = () => {
+    setFilters({ name: "" });
+
+    if (open) setOpen(false);
+    if (!isSearching) return;
+    setIsSearching(false);
+    setPage(1);
+    dispatch(fetchProducts({ page: 1 }));
+  };
+
   return (
-    <>
-      <div className="flex w-full h-full flex-col gap-y-2 p-4">
-        <div className="card">
-          <div className="card-header">
-            <p className="card-title">قائمة المنتجات</p>
-            <button className="card-buuton">إضافة مستخدم +</button>
-          </div>
-          <div className="card-body">
-            <table className=" table">
-              <thead className="table-header">
-                <tr className="table-row">
-                  <th className="table-head">#</th>
-                  <th className="table-head">Product</th>
-                  <th className="table-head">Price</th>
-                  <th className="table-head">Status</th>
-                  <th className="table-head">Rating</th>
-                  <th className="table-head">Actions</th>
-                </tr>
-              </thead>
-              <tbody className="table-body">
-                {[...Array(50)].map((_, i) => {
-                  return (
-                    <tr className="table-row" key={i}>
-                      <td className="table-cell">1</td>
-                      <td className="table-cell">2</td>
-                      <td className="table-cell">3</td>
-                      <td className="table-cell">4</td>
-                      <td className="table-cell">5</td>
-                      <td className="table-cell">6</td>
-                    </tr>
-                  );
-                })}
-                <tr className="table-row">
-                  <td className="table-cell">last</td>
-                  <td className="table-cell">last</td>
-                  <td className="table-cell">last</td>
-                  <td className="table-cell">last</td>
-                  <td className="table-cell">last</td>
-                  <td className="table-cell">last</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+    <div className="flex w-full h-full flex-col gap-y-2 p-4">
+      {/* Search Section */}
+      {isDesktopDevice ? (
+        <ProductsSearch
+          filters={filters}
+          setFilters={setFilters}
+          search={handleSearch}
+          cancel={handleCancelSearch}
+        />
+      ) : (
+        <button
+          onClick={() => setOpen(true)}
+          className="bg-[#5EB756] text-white text-sm px-3 py-2 rounded-md shadow-sm sm:hidden"
+        >
+          بحث المنتجات
+        </button>
+      )}
+
+      <div className="card">
+        <CardHeader
+          title={"المنتجات"}
+          buttonTitle={"منتج"}
+          handleClick={() => setIsAddOpen(true)}
+        />
+        <div className="card-body">
+          <ProductsTable
+            products={products}
+            onView={(product) => {
+              setSelectedProduct(product);
+              setIsViewOpen(true);
+            }}
+            onEdit={(product) => {
+              if (!product) return;
+              setSelectedProduct(product);
+              setIsUpdateOpen(true);
+            }}
+            onDelete={(product) => {
+              setSelectedProduct(product);
+              setIsDeleteOpen(true);
+            }}
+          />
         </div>
-        <div className="bg-white h-[50px]"></div>
       </div>
-    </>
+
+      {/* pagination */}
+      <Pagination
+        page={meta.page}
+        totalPages={meta.totalPage}
+        totalUsers={meta.total}
+        limit={meta.limit}
+        onPageChange={setPage}
+      />
+
+      {isAddOpen && (
+        <AddProductModal onConfirm={handleAddProduct} onClose={closeModal} loading={loading} />
+      )}
+
+      {isViewOpen && <ViewProductModal product={selectedProduct} onClose={closeModal} />}
+
+      {isUpdateOpen && (
+        <UpdateProductModal
+          product={selectedProduct}
+          onConfirm={handleUpdateProduct}
+          onClose={closeModal}
+          loading={loading}
+        />
+      )}
+
+      {isDeleteOpen && (
+        <DeleteProductModal
+          product={selectedProduct}
+          onConfirm={handleDeleteProduct}
+          onClose={closeModal}
+          loading={loading}
+        />
+      )}
+
+      {open && (
+        <Offcanvas title="بيانات المنتج" onClose={() => setOpen(false)}>
+          <ProductsSearch
+            filters={filters}
+            setFilters={setFilters}
+            search={handleSearch}
+            cancel={handleCancelSearch}
+          />
+        </Offcanvas>
+      )}
+    </div>
   );
 };
 

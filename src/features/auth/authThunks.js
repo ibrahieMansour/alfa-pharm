@@ -1,7 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import api from "@/api/api";
 
-// 🔹 LOGIN THUNK
 export const loginAdmin = createAsyncThunk(
   "auth/login/admin",
   async ({ phone, password }, { dispatch, rejectWithValue }) => {
@@ -9,8 +8,11 @@ export const loginAdmin = createAsyncThunk(
       const { data } = await api.post(`/auth/login/admin`, {
         // phone: "2" + phone,
         // password,
-        phone: "201555352412",
+        phone:"201555352412",
         password: "P@ssw0rd",
+
+        // phone: "201000006722",
+        // password: "P@ssw0rd",
       });
 
       // Save tokens
@@ -26,8 +28,6 @@ export const loginAdmin = createAsyncThunk(
     }
   }
 );
-
-// 🔹 GETPROFILE THUNK (requires token)
 export const getAdminProfile = createAsyncThunk(
   "auth/getProfile",
   async (_, { rejectWithValue }) => {
@@ -38,7 +38,7 @@ export const getAdminProfile = createAsyncThunk(
       window.location.href = "/";
       return rejectWithValue("Missing token");
     }
-    
+
     try {
       const { data } = await api.get(`/admin/profile`);
       return data.data;
@@ -49,8 +49,17 @@ export const getAdminProfile = createAsyncThunk(
     }
   }
 );
-
-// 🔹 LOGOUT THUNK (requires token)
+export const updateMyProfileThunk = createAsyncThunk(
+  "admin/editProfile",
+  async (data, thunkAPI) => {
+    try {
+      const res = await api.PATCH(`/admin/editProfile`, data);
+      return res.data.data;
+    } catch (err) {
+      return thunkAPI.rejectWithValue(err.response?.data || err.message);
+    }
+  }
+);
 export const logoutAdmin = createAsyncThunk("auth/logout/admin", async (_, { rejectWithValue }) => {
   const access_token = localStorage.getItem("access_token");
   const refresh_token = localStorage.getItem("refresh_token");
