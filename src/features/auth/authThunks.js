@@ -6,10 +6,10 @@ export const loginAdmin = createAsyncThunk(
   async ({ phone, password }, { dispatch, rejectWithValue }) => {
     try {
       const { data } = await api.post(`/auth/login/admin`, {
-        // phone: "2" + phone,
-        // password,
-        phone:"201555352412",
-        password: "P@ssw0rd",
+        phone: "2" + phone,
+        password,
+        // phone:"201555352412",
+        // password: "P@ssw0rd",
 
         // phone: "201000006722",
         // password: "P@ssw0rd",
@@ -53,8 +53,12 @@ export const updateMyProfileThunk = createAsyncThunk(
   "admin/editProfile",
   async (data, thunkAPI) => {
     try {
-      const res = await api.PATCH(`/admin/editProfile`, data);
-      return res.data.data;
+      await api.patch(`/admin/editProfile`, data, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        }
+      });
+      await thunkAPI.dispatch(getAdminProfile());
     } catch (err) {
       return thunkAPI.rejectWithValue(err.response?.data || err.message);
     }

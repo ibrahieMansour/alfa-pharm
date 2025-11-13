@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 // import { orders } from "@/constant";
 import { statusStyles } from "@/constants/index";
@@ -14,6 +14,8 @@ import { useSelector } from "react-redux";
 import DefaultImage from "@/assets/images/default-image.png";
 const UserOrdersInfo = () => {
   const { currentUser } = useSelector((state) => state.users);
+  const navigate = useNavigate();
+
   const [selectedOrder, setSelectedOrder] = useState(null);
 
   const handleSelect = (order) => {
@@ -48,12 +50,19 @@ const UserOrdersInfo = () => {
         >
           <div className="flex justify-between items-center mb-2">
             <h2 className="text-md font-medium">الطلبات</h2>
-            <Link
-              to="/orders"
+            <button
+              onClick={() => {
+                navigate("/orders", {
+                  state: {
+                    userPhone: currentUser.phone,
+                    userName: currentUser.name,
+                  },
+                });
+              }}
               className="border border-[#5EB756] rounded-xl py-1 px-2 text-black font-bold text-[10px] hover:text-[white] hover:bg-[#5eb756]"
             >
               المزيد
-            </Link>
+            </button>
           </div>
           <div className="flex flex-col gap-y-2">
             {currentUser?.orders.map((order) => (
@@ -138,9 +147,7 @@ const UserOrdersInfo = () => {
                         <p className="font-semibold text-[11px] text-[#121111]">
                           الكمية: {e.quantity}
                         </p>
-                        <p className="font-semibold text-[11px] text-[#121111]">
-                          {e.price} ج.م
-                        </p>
+                        <p className="font-semibold text-[11px] text-[#121111]">{e.price} ج.م</p>
                       </div>
                     </div>
                   ))}

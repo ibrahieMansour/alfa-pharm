@@ -3,6 +3,8 @@ import Orders from "@/assets/icons/orders.svg?react";
 import Users from "@/assets/icons/users.svg?react";
 import Admins from "@/assets/icons/admins.svg?react";
 
+import avatar from "../assets/images/avatar.png";
+
 export const sideBarNav = [
   {
     title: "المنتجات",
@@ -70,104 +72,67 @@ function createStatusStyle(text, color) {
   };
 }
 
-// export const order = {
-//   id: "ORD-1024",
-//   date: "2025-11-08",
-//   status: "SHIPPED",
-//   total: 240.5,
-//   customer: "John Doe",
-//   items: [
-//     {
-//       id: 1,
-//       name: "Wireless Headphones",
-//       image: "https://picsum.photos/400/300",
-//       quantity: 2,
-//       price: 50,
-//     },
-//     {
-//       id: 2,
-//       name: "Smart Watch Smart Watch Smart Watch Smart Watch",
-//       image: "https://picsum.photos/400/300",
-//       quantity: 1,
-//       price: 120.5,
-//     },
-//     {
-//       id: 3,
-//       name: "Phone Case",
-//       image: "https://picsum.photos/400/300",
-//       quantity: 3,
-//       price: 20,
-//     },
-//     {
-//       id: 4,
-//       name: "Phone Case",
-//       image: "https://picsum.photos/400/300",
-//       quantity: 3,
-//       price: 20,
-//     },
-//     {
-//       id: 5,
-//       name: "Phone Case",
-//       image: "https://picsum.photos/400/300",
-//       quantity: 3,
-//       price: 20,
-//     },
-//     {
-//       id: 6,
-//       name: "Phone Case",
-//       image: "https://picsum.photos/400/300",
-//       quantity: 3,
-//       price: 20,
-//     },
-//     {
-//       id: 7,
-//       name: "Phone Case",
-//       image: "https://picsum.photos/400/300",
-//       quantity: 3,
-//       price: 20,
-//     },
-//     {
-//       id: 8,
-//       name: "Phone Case",
-//       image: "https://picsum.photos/400/300",
-//       quantity: 3,
-//       price: 20,
-//     },
-//     {
-//       id: 9,
-//       name: "Phone Case",
-//       image: "https://picsum.photos/400/300",
-//       quantity: 3,
-//       price: 20,
-//     },
-//     {
-//       id: 10,
-//       name: "Phone Case",
-//       image: "https://picsum.photos/400/300",
-//       quantity: 3,
-//       price: 20,
-//     },
-//     {
-//       id: 11,
-//       name: "Phone Case",
-//       image: "https://picsum.photos/400/300",
-//       quantity: 3,
-//       price: 20,
-//     },
-//   ],
-// };
-
-export const order = {
-  id: "ORD-1024",
-  date: "2025-11-08",
-  status: "SHIPPED",
-  total: 240.5,
-  customer: "John Doe",
-  items: Array.from({ length: 30 }, (_, i) => ({
-    id: i + 1,
-    name: `Product ${i + 1}`,
-    image: `https://picsum.photos/400/300?random=${i + 1}`,
-    quantity: Math.floor(Math.random() * 5) + 1, // quantity between 1 and 5
-    price: Math.floor(Math.random() * 100) + 10, // price between 10 and 109
-  })),
+export const orderOrderOrder = {
+  orderNumber: "INV-1001",
+  createdAt: "2025-11-11",
+  status: "Pending",
+  companyLogo: avatar,
+  user: {
+    image: avatar,
+    name: "John Doe",
+    phone: "123456789",
+    address: "123 Main St",
+  },
+  items: [
+    {
+      price: 50,
+      quantity: 1,
+      product: { image: avatar, name: "Product 1" },
+    },
+    {
+      price: 75,
+      quantity: 2,
+      product: { image: avatar, name: "Product 2" },
+    },
+    {
+      price: 60,
+      quantity: 3,
+      product: { image: avatar, name: "Product 3" },
+    },
+    {
+      price: 80,
+      quantity: 1,
+      product: { image: avatar, name: "Product 4" },
+    },
+    {
+      price: 45,
+      quantity: 2,
+      product: { image: avatar, name: "Product 5" },
+    },
+    {
+      price: 120,
+      quantity: 1,
+      product: { image: avatar, name: "Product 6" },
+    },
+    {
+      price: 90,
+      quantity: 2,
+      product: { image: avatar, name: "Product 7" },
+    },
+    {
+      price: 100,
+      quantity: 1,
+      product: { image: avatar, name: "Product 8" },
+    },
+    {
+      price: 55,
+      quantity: 3,
+      product: { image: avatar, name: "Product 9" },
+    },
+    {
+      price: 70,
+      quantity: 2,
+      product: { image: avatar, name: "Product 10" },
+    },
+  ],
 };

@@ -44,8 +44,8 @@ const DashboardLayout = () => {
         <div
           className={cn(
             "transition-[margin] duration-300",
-            // collapsed ? "md:mr-[70px]" : "md:mr-[240px]",
-            `md:mr-[${collapsed ? 70 : 240}px]`
+            collapsed ? "md:mr-[70px]" : "md:mr-[200px]",
+            // `md:mr-[${collapsed ? 70 : 200}px]`
           )}
         >
           <Header

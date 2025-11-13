@@ -18,7 +18,6 @@ import UpdateItemsModal from "./UpdateItemsModal";
 import DeleteItemsModal from "./DeleteItemsModal";
 import DeleteOrderModal from "./DeleteOrderModal";
 
-import { order } from "@/constants/index";
 import AddItemModal from "./AddItemModal";
 
 const OrderDetailsPage = () => {

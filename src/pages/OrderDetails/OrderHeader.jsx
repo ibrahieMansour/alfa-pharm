@@ -1,12 +1,14 @@
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 
-import { downloadOrderPDF } from "./DownloadOrderPDF";
+import downloadOrderPDF from "./DownloadOrderPDF";
 
 import RightArrow from "@/assets/icons/right-arrow-black.svg";
 import DeleteIcon from "@/assets/icons/delete.svg";
 import PDFFileIcon from "@/assets/icons/pdf-file.svg";
 import PlusIcon from "@/assets/icons/plus.svg";
+
+import {orderOrderOrder} from "../../constants/index"
 
 const OrderHeader = ({ order, setDelete, setAdd }) => {
   const { loading } = useSelector((state) => state.orders);
@@ -29,7 +31,8 @@ const OrderHeader = ({ order, setDelete, setAdd }) => {
         <div className="flex items-center justify-center gap-3">
           <button
             className="bg-blue-500 flex justify-center items-center gap-x-1 rounded-lg p-2"
-            onClick={() => downloadOrderPDF(order)}
+            onClick={() => downloadOrderPDF(orderOrderOrder)}
+            // onClick={() => downloadOrderPDF(order)}
             title="طباعة فاتورة"
           >
             <span className="text-white text-[10px] max-sm:hidden">طباعة فاتورة</span>

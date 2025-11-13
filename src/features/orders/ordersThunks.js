@@ -12,12 +12,32 @@ export const fetchOrders = createAsyncThunk(
     }
   }
 );
+// export const searchOrdersThunk = createAsyncThunk(
+//   "orders/search",
+//   async ({ status, orderNumber, userPhone, userName, page = 1, limit = 10 } = {}, thunkAPI) => {
+//     try {
+//       const res = await api.get(`/orders/searchOrder?status=${status}&page=${page}&limit=${limit}`);
+//       return res.data;
+//     } catch (err) {
+//       return thunkAPI.rejectWithValue(err.response?.data || err.message);
+//     }
+//   }
+// );
 export const searchOrdersThunk = createAsyncThunk(
   "orders/search",
-  async ({ status = "", page = 1, limit = 10 } = {}, thunkAPI) => {
+  async ({ status, orderNumber, userPhone, userName, page = 1, limit = 10 } = {}, thunkAPI) => {
     try {
-      const res = await api.get(`/orders/searchOrder?status=${status}&limit=${limit}&page=${page}`);
-      console.log(res.data);
+      const params = { page, limit };
+
+      if (status) params.status = status;
+      if (orderNumber) params.orderNumber = orderNumber;
+      if (userPhone) params.userPhone = userPhone;
+      if (userName) params.userName = userName;
+
+      const query = new URLSearchParams(params).toString();
+
+      const res = await api.get(`/orders/searchOrder?${query}`);
+      console.log(res.data.data)
       return res.data;
     } catch (err) {
       return thunkAPI.rejectWithValue(err.response?.data || err.message);

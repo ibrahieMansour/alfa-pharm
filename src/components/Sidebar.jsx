@@ -40,8 +40,8 @@ export const Sidebar = forwardRef(({ collapsed, setCollapsed, isDesktopDevice },
       <aside
         ref={ref}
         className={cn(
-          "fixed z-[100] flex h-full w-[240px] flex-col overflow-x-hidden border-l border-[#5EB756] bg-inherit [transition:_width_300ms_cubic-bezier(0.4,_0,_0.2,_1),_left_300ms_cubic-bezier(0.4,_0,_0.2,_1),_background-color_150ms_cubic-bezier(0.4,_0,_0.2,_1),_border_150ms_cubic-bezier(0.4,_0,_0.2,_1)] ",
-          collapsed ? "md:w-[70px] md:items-center" : "md:w-[240px]",
+          "fixed z-[100] flex h-full w-[200px] flex-col overflow-x-hidden border-l border-[#5EB756] bg-inherit [transition:_width_300ms_cubic-bezier(0.4,_0,_0.2,_1),_left_300ms_cubic-bezier(0.4,_0,_0.2,_1),_background-color_150ms_cubic-bezier(0.4,_0,_0.2,_1),_border_150ms_cubic-bezier(0.4,_0,_0.2,_1)] ",
+          collapsed ? "md:w-[70px] md:items-center" : "md:w-[200px]",
           collapsed ? "max-md:-right-full" : "max-md:right-0"
         )}
         onMouseEnter={handleMouseEnter}

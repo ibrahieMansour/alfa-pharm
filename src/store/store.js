@@ -5,6 +5,7 @@ import orderReducer from "../features/orders/ordersSlice";
 import productsReducer from "../features/products/productsSlice";
 import usersReducer from "../features/users/usersSlice";
 import adminsReducer from "../features/admins/adminsSlice";
+import notificationsReducer from "../features/notifications/notificationsSlice";
 
 const store = configureStore({
   reducer: {
@@ -13,6 +14,7 @@ const store = configureStore({
     products: productsReducer,
     users: usersReducer,
     admins: adminsReducer,
+    notifications: notificationsReducer,
   },
 });
 

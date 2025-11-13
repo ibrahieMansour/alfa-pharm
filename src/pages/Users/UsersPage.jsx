@@ -97,13 +97,10 @@ const UsersPage = () => {
   const handleSearch = () => {
     if (open) setOpen(false);
 
-    // Remove empty or undefined fields
     const payload = {};
     if (filters.name?.trim()) payload.search = filters.name.trim();
     if (filters.phone?.trim()) payload.searchPhone = filters.phone.trim();
 
-    console.log(payload);
-    // Don't send if both are empty
     if (Object.keys(payload).length === 0) return;
 
     setIsSearching(true);
