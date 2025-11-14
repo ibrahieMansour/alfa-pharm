@@ -6,10 +6,10 @@ export const loginAdmin = createAsyncThunk(
   async ({ phone, password }, { dispatch, rejectWithValue }) => {
     try {
       const { data } = await api.post(`/auth/login/admin`, {
-        // phone: "2" + phone,
-        // password,
-        phone:"201555352412",
-        password: "P@ssw0rd",
+        phone: "2" + phone,
+        password,
+        // phone:"201555352412",
+        // password: "P@ssw0rd",
 
         // phone: "201000006722",
         // password: "P@ssw0rd",

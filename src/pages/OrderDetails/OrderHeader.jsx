@@ -3,7 +3,6 @@ import { useSelector } from "react-redux";
 
 import api from "@/api/api";
 
-import { generateInvoice } from "./generateInvoice";
 import { createInvoiceHTML } from "./createInvoiceHTML";
 
 import RightArrow from "@/assets/icons/right-arrow-black.svg";
