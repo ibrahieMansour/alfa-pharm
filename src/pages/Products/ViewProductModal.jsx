@@ -4,6 +4,7 @@ import DefaultImage from "@/assets/images/default-image.png";
 import ProductsModalIcon from "@/assets/icons/products-modal.svg";
 
 const ViewProductsModal = ({ product, onClose }) => {
+  console.log(product)
   return (
     <Modal
       title="بيانات المنتج"

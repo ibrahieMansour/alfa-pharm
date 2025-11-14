@@ -6,7 +6,6 @@ import LocationIcon from "@/assets/icons/location.svg";
 
 const UserInfo = () => {
   const { currentUser, loading } = useSelector((state) => state.users);
-
   return (
     <div className="sm:border-b border-dashed border-[#5EB756] pb-1">
       <div className="flex max-sm:flex-col gap-x-9 m-auto w-full max-w-[500px]">
@@ -15,7 +14,7 @@ const UserInfo = () => {
             <div className="w-24 h-24 sm:w-32 sm:h-32 rounded-full bg-gray-200 animate-pulse" />
           ) : (
             <div className="w-24 h-24 sm:w-32 sm:h-32 border border-[#F4EBD0] rounded-full overflow-hidden">
-              <img src={currentUser?.img || Avatar} alt="avatar-img" className="w-full h-full" />
+              <img src={currentUser?.image || Avatar} alt="avatar-img" className="w-full h-full" />
             </div>
           )}
 

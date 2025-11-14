@@ -20,6 +20,9 @@ const ViewAdminModal = ({ admin, onClose }) => {
               src={admin.image || Avatar}
               alt="avatar-image"
               className="w-full h-full object-cover"
+              onError={(e) => {
+                e.target.src = Avatar;
+              }}
             />
           </div>
           <p className="text-[#414651] font-medium text-xs">صورة الملف الشخصي</p>

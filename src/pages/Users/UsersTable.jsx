@@ -5,11 +5,12 @@ import LoadingRows from "@/components/LoadingRows";
 import FillTableRow from "@/components/FillTableRow";
 
 import LeftAngle from "@/assets/icons/left-angle.svg";
+import EditIcon from "@/assets/icons/edit.svg";
 import DeleteIcon from "@/assets/icons/delete.svg";
 import LockIcon from "@/assets/icons/lock-icon.svg";
 import UnLockIcon from "@/assets/icons/un-lock-icon.svg";
 
-const UsersTable = ({ users, onBan, onDelete }) => {
+const UsersTable = ({ users, onBan, onEdit, onDelete }) => {
   const { loading } = useSelector((state) => state.users);
 
   return (
@@ -28,21 +29,17 @@ const UsersTable = ({ users, onBan, onDelete }) => {
       ) : (
         <tbody className="table-body">
           {users.map((e, i) => (
-            <tr key={e.id} className="table-row">
+            <tr key={e.id} className={`table-row ${e.suspend ? "baned" : ""}`}>
               <td className="table-cell">{i + 1}</td>
               <td className="table-cell">{e.name}</td>
               <td className="table-cell">{e.phone}</td>
               <td className="table-cell">
-                {/* <button
-                  type="button"
-                  className={cn("ban-btn", e.suspend ? "un-ban" : "ban")}
-                  onClick={() => onBan(e)}
-                >
-                  {e.suspend ? "تفعيل" : "حظر"}
-                </button> */}
                 <div className="flex items-center justify-center gap-3">
-                  <button className="opacity-50 hover:opacity-100" onClick={() => onBan(e)}>
+                  {/* <button className="opacity-50 hover:opacity-100" onClick={() => onBan(e)}>
                     <img src={e.suspend ? LockIcon : UnLockIcon} alt="Edit" className="w-5 h-5" />
+                  </button> */}
+                  <button className="opacity-50 hover:opacity-100" onClick={() => onEdit(e)}>
+                    <img src={EditIcon} alt="Edit" className="w-5 h-5" />
                   </button>
                   <button className="opacity-50 hover:opacity-100" onClick={() => onDelete(e)}>
                     <img src={DeleteIcon} alt="Delete" className="w-5 h-5" />

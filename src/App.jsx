@@ -10,7 +10,6 @@ import AuthLayout from "@/components/layout/AuthLayout";
 import DashboardLayout from "@/components/layout/DashboardLayout";
 
 import SignInPage from "@/pages/Auth/SignIn/SignInPage";
-
 import ProductsPage from "@/pages/Products/ProductsPage";
 import UsersPage from "@/pages/Users/UsersPage";
 import UserDetailsPage from "@/pages/UserDetails/UserDetailsPage";

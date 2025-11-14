@@ -36,20 +36,20 @@ const SignInPage = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    setValid(true);
+    // setValid(true);
 
-    if (!phone || !password) return;
-    if (!phonePattern.test(phone)) return;
+    // if (!phone || !password) return;
+    // if (!phonePattern.test(phone)) return;
 
-    setValid(false);
-    setErrorMessage("");
+    // setValid(false);
+    // setErrorMessage("");
 
     dispatch(loginAdmin({ phone, password }))
       .unwrap()
       .then(() => {
         setPhone("");
         setPassword("");
-        navigate("/products");
+        navigate("/orders");
       })
       .catch(() => {
         setValid(true);

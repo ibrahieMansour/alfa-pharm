@@ -1,11 +1,13 @@
 import { useState, useEffect, useRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
+
+import { updateOrderStatusThunk } from "../../features/orders/ordersThunks";
 
 import { statusStyles } from "@/constants/index";
+import { formatDate } from "@/utils/formatDate";
 
 import Avatar from "@/assets/images/avatar.png";
 import BottomAngle from "@/assets/icons/bottom-angle.svg";
-import { updateOrderStatusThunk } from "../../features/orders/ordersThunks";
-import { useDispatch, useSelector } from "react-redux";
 
 const OrderDetails = ({ order, showDetails, setShowDetails }) => {
   const { currentOrder } = useSelector((state) => state.orders);
@@ -106,7 +108,7 @@ const OrderDetails = ({ order, showDetails, setShowDetails }) => {
             </div>
             <div className="w-full flex justify-between items-center">
               <p className="text-[11px] font-bold">تاريخ الطلب</p>
-              <p className="text-[11px] font-bold text-[#93A0B9]">{currentOrder.createdAt}</p>
+              <p className="text-[11px] font-bold text-[#93A0B9]">{formatDate(currentOrder.createdAt)}</p>
             </div>
             <div className="w-full flex justify-between items-center">
               <p className="text-[11px] font-bold">عدد المنتجات</p>

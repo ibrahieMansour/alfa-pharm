@@ -16,6 +16,7 @@ const PhoneInput = ({ phone, setPhone, error, label }) => {
           type="text"
           id="phone-input"
           className={cn("input input--ps", error && !phonePattern.test(phone) ? "error" : "valid")}
+          maxLength={11}
           value={phone}
           onKeyDown={(e) => {
             if (e.key === " ") e.preventDefault();

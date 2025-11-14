@@ -172,7 +172,7 @@ const OrdersPage = () => {
       {/* pagination */}
       <Pagination
         page={meta?.page}
-        totalPages={isSearching ? meta?.totalPages : meta?.totalPage}
+        totalPages={meta?.totalPage}
         totalUsers={meta?.total}
         limit={meta?.limit}
         onPageChange={setPage}

@@ -192,14 +192,9 @@
 
     .table-cell {
       @apply w-fit whitespace-nowrap overflow-hidden text-ellipsis py-1 text-[10px] font-medium bg-white;
-      & .ban-btn {
-        @apply w-[60px] py-0.5 font-bold border border-[#FA0404] rounded-md;
-        &.ban {
-          @apply bg-[#fa04041a];
-        }
-        &.un-ban {
-        }
-      }
+    }
+    .table-row.baned .table-cell{
+      @apply bg-red-100;
     }
   }
 

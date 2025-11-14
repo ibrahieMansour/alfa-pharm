@@ -12,7 +12,8 @@ import {
 
 import UsersTable from "./UsersTable";
 import AddUserModal from "./AddUserModal";
-import BlockUserModal from "./BlockUserModal";
+// import BlockUserModal from "./BlockUserModal";
+import UpdateUserModal from "./UpdateUserModal";
 import DeleteUserModal from "./DeleteUserModal";
 import UsersSearch from "./UsersSearch";
 
@@ -27,6 +28,7 @@ const UsersPage = () => {
 
   const [isBanOpen, setIsBanOpen] = useState(false);
   const [isAddOpen, setIsAddOpen] = useState(false);
+  const [isEditOpen, setIsEditOpen] = useState(false);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
   const [open, setOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
@@ -61,6 +63,7 @@ const UsersPage = () => {
     setSelectedUser(null);
     setIsBanOpen(false);
     setIsAddOpen(false);
+    setIsEditOpen(false);
     setIsDeleteOpen(false);
   };
 
@@ -75,11 +78,22 @@ const UsersPage = () => {
       .finally(() => setLoading(false));
   };
 
-  const handleBlockUser = () => {
+  // const handleBlockUser = () => {
+  //   setLoading(true);
+  //   dispatch(updateUserThunk({ id: selectedUser.id, data: { suspend: !selectedUser.suspend } }))
+  //     .unwrap()
+  //     .then(() => setIsBanOpen(false))
+  //     .finally(() => setLoading(false));
+  // };
+
+  const handleEditUser = (data) => {
     setLoading(true);
-    dispatch(updateUserThunk({ id: selectedUser.id, data: { suspend: !selectedUser.suspend } }))
+    dispatch(updateUserThunk({ id: selectedUser.id, data }))
       .unwrap()
-      .then(() => setIsBanOpen(false))
+      .then(() => {
+        setIsEditOpen(false);
+        dispatch(fetchUsers({ page }));
+      })
       .finally(() => setLoading(false));
   };
 
@@ -148,9 +162,13 @@ const UsersPage = () => {
         <div className="card-body">
           <UsersTable
             users={users}
-            onBan={(user) => {
+            // onBan={(user) => {
+            //   setSelectedUser(user);
+            //   setIsBanOpen(true);
+            // }}
+            onEdit={(user) => {
               setSelectedUser(user);
-              setIsBanOpen(true);
+              setIsEditOpen(true);
             }}
             onDelete={(user) => {
               setSelectedUser(user);
@@ -174,10 +192,19 @@ const UsersPage = () => {
         <AddUserModal onConfirm={handleAddUser} onClose={closeModal} loading={loading} />
       )}
 
-      {isBanOpen && (
+      {/* {isBanOpen && (
         <BlockUserModal
           user={selectedUser}
           onConfirm={handleBlockUser}
+          onClose={closeModal}
+          loading={loading}
+        />
+      )} */}
+
+      {isEditOpen && (
+        <UpdateUserModal
+          user={selectedUser}
+          onConfirm={handleEditUser}
           onClose={closeModal}
           loading={loading}
         />

@@ -1,6 +1,7 @@
 import EditIcon from "@/assets/icons/edit.svg";
 import DeleteIcon from "@/assets/icons/delete.svg";
 import { useEffect, useRef, useState } from "react";
+import DefaultImage from "@/assets/images/default-image.png";
 
 const OrderItems = ({ items, showDetails, setShowDetails, onUpdate, onDelete }) => {
   // calc height
@@ -34,12 +35,12 @@ const OrderItems = ({ items, showDetails, setShowDetails, onUpdate, onDelete }) 
           <div key={item.id} className="flex items-center justify-between">
             <div className="flex gap-x-4">
               <img
-                src={item?.product.image}
+                src={item?.product.image || DefaultImage}
                 alt="avatar-image"
                 className="w-16 h-16 rounded-2xl"
-                // onError={(e) => {
-                //   e.currentTarget.src = DefaultImage;
-                // }}
+                onError={(e) => {
+                  e.currentTarget.src = DefaultImage;
+                }}
               />
               <div className="flex flex-col gap-y-1">
                 <p className="font-semibold text-[11px] text-[#121111]">{item?.product.name}</p>

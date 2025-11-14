@@ -27,16 +27,6 @@ export const searchProductsThunk = createAsyncThunk(
   }
 );
 
-// export const getProductByIdThunk = createAsyncThunk("products/getById", async (id, thunkAPI) => {
-//   try {
-//     const res = await api.get(`/products/${id}`);
-//     return res.data.data;
-//   } catch (err) {
-//     return thunkAPI.rejectWithValue(err.response?.data || err.message);
-//   }
-// });
-
-// headers["Content-Type"] = "multipart/form-data";
 export const createProductThunk = createAsyncThunk("products/create", async (data, thunkAPI) => {
   try {
     await api.post(`/products/create`, data, {

@@ -3,7 +3,6 @@ import { createSlice } from "@reduxjs/toolkit";
 import {
   fetchProducts,
   searchProductsThunk,
-  // getProductByIdThunk,
   createProductThunk,
   updateProductThunk,
   deleteProductThunk,
@@ -12,7 +11,6 @@ import {
 const initialState = {
   products: [],
   meta: {},
-  // currentproduct: {},
   loading: false,
   error: null,
 };
@@ -29,7 +27,6 @@ const productsSlice = createSlice({
           state.loading = true;
         }
         state.error = null;
-        // state.currentproduct = null;
       })
       .addCase(fetchProducts.fulfilled, (state, { payload }) => {
         const { data, meta } = payload;
@@ -48,16 +45,6 @@ const productsSlice = createSlice({
         state.products = data;
         state.meta = meta;
       })
-
-      // 👤 Get product by ID
-      // .addCase(getProductByIdThunk.pending, (state) => {
-      //   state.loading = true;
-      //   state.currentAdmin = null;
-      // })
-      // .addCase(getProductByIdThunk.fulfilled, (state, action) => {
-      //   state.loading = false;
-      //   state.currentAdmin = action.payload.data || action.payload;
-      // })
 
       // ✏️ Update product
       .addCase(updateProductThunk.fulfilled, (state, action) => {

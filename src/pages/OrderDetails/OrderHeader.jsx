@@ -1,17 +1,36 @@
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 
-import downloadOrderPDF from "./DownloadOrderPDF";
+import api from "@/api/api";
+
+import { generateInvoice } from "./generateInvoice";
+import { createInvoiceHTML } from "./createInvoiceHTML";
 
 import RightArrow from "@/assets/icons/right-arrow-black.svg";
 import DeleteIcon from "@/assets/icons/delete.svg";
 import PDFFileIcon from "@/assets/icons/pdf-file.svg";
 import PlusIcon from "@/assets/icons/plus.svg";
 
-import {orderOrderOrder} from "../../constants/index"
-
 const OrderHeader = ({ order, setDelete, setAdd }) => {
   const { loading } = useSelector((state) => state.orders);
+
+  const handleDownload = () => {
+    //  createInvoiceHTML(order);
+    const html = createInvoiceHTML(order);
+
+    api.post(
+      "pdf/generate-invoice",
+      { invoiceHTML: html },
+      { responseType: "blob" }
+    )
+      .then((res) => {
+        const url = URL.createObjectURL(new Blob([res.data]));
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = `invoice-${order.orderNumber}.pdf`;
+        link.click();
+      });
+  };
 
   return (
     <div className="flex justify-between items-center">
@@ -31,8 +50,8 @@ const OrderHeader = ({ order, setDelete, setAdd }) => {
         <div className="flex items-center justify-center gap-3">
           <button
             className="bg-blue-500 flex justify-center items-center gap-x-1 rounded-lg p-2"
-            onClick={() => downloadOrderPDF(orderOrderOrder)}
-            // onClick={() => downloadOrderPDF(order)}
+            onClick={handleDownload}
+            // onClick={() => generateInvoice(order)}
             title="طباعة فاتورة"
           >
             <span className="text-white text-[10px] max-sm:hidden">طباعة فاتورة</span>
