@@ -37,7 +37,6 @@ export const searchOrdersThunk = createAsyncThunk(
       const query = new URLSearchParams(params).toString();
 
       const res = await api.get(`/orders/searchOrder?${query}`);
-      console.log(res.data.data)
       return res.data;
     } catch (err) {
       return thunkAPI.rejectWithValue(err.response?.data || err.message);
@@ -57,7 +56,6 @@ export const addItemToOrderThunk = createAsyncThunk(
   async ({ orderId, data }, thunkAPI) => {
     try {
       const res = await api.post(`/orders/${orderId}/add-item`, data); // data as array of object with product id & quan
-      console.log(res.data.items[0]);
       return res.data.items;
     } catch (err) {
       return thunkAPI.rejectWithValue(err.response?.data || err.message);

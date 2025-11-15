@@ -54,9 +54,6 @@ const AddItemModal = ({ onConfirm, onClose, loading }) => {
       productId: p.id,
       quantity: p.quantity,
     }));
-    console.log({
-      items: data,
-    });
     onConfirm({
       items: data,
     });

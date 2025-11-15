@@ -1,6 +1,8 @@
 import { statusStyles } from "@/constants/index.jsx"
 import { formatDate } from "@/utils/formatDate"
 
+import pdfLogo from "../../assets/images/pdf-logo.jpg"
+
 export function createInvoiceHTML(order) {
   const itemsHTML = order.items
     .map(
@@ -25,6 +27,7 @@ export function createInvoiceHTML(order) {
 
     <style>
       @import url("https://fonts.googleapis.com/css2?family=Cairo:wght@400;600&display=swap");
+      @import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100..900&display=swap');
 
       body {
         font-family: "Cairo", sans-serif;
@@ -43,9 +46,12 @@ export function createInvoiceHTML(order) {
         font-weight: bold;
         font-size: 65px;
         margin-bottom: 20px;
-        color: red;
+        color: #E97E39;
+        font-family: 'Roboto Slab', serif;
+        font-weight: 400;
       }
       .logo span { color: green; }
+      .pdf-logo { width: 100px; height: 100px; }
 
       .header-container .date {
         font-size: 12px;

@@ -73,7 +73,6 @@ const UpdateProductsModal = ({ product, onConfirm, onClose, loading }) => {
     }
 
     onConfirm(changedData);
-    console.log(changedData);
   };
 
   return (

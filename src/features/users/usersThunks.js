@@ -44,7 +44,6 @@ export const createUserThunk = createAsyncThunk("users/create", async (data, thu
 export const updateUserThunk = createAsyncThunk("users/update", async ({ id, data }, thunkAPI) => {
   try {
     const res = await api.put(`/users/${id}/edit`, data);
-    console.log(res.data.data)
     return res.data.data;
   } catch (err) {
     return thunkAPI.rejectWithValue(err.response?.data || err.message);

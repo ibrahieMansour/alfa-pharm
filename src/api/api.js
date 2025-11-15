@@ -9,9 +9,9 @@ api.interceptors.request.use((config) => {
   const access_token = localStorage.getItem("access_token");
   if (access_token) {
     config.headers.Authorization = `Bearer ${access_token}`;
-    console.log("accessinng");
   }
   config.headers["ngrok-skip-browser-warning"] = "true";
+  config.headers["x-api-key"] = "Alfakeypharm2025@";
   return config;
 });
 
@@ -23,8 +23,6 @@ api.interceptors.response.use(
     if (originalRequest.url.includes("auth/login/admin")) {
       return Promise.reject(error);
     }
-
-    console.log("refreshing");
 
     if (error.response?.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
@@ -44,6 +42,7 @@ api.interceptors.response.use(
             headers: {
               Authorization: `Bearer ${refresh_token}`,
               "ngrok-skip-browser-warning": "true",
+              "x-api-key": "Alfakeypharm2025@",
             },
           }
         );
