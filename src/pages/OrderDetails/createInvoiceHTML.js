@@ -1,8 +1,6 @@
 import { statusStyles } from "@/constants/index.jsx"
 import { formatDate } from "@/utils/formatDate"
 
-import pdfLogo from "../../assets/images/pdf-logo.jpg"
-
 export function createInvoiceHTML(order) {
   const itemsHTML = order.items
     .map(
