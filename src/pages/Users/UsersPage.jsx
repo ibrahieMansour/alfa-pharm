@@ -67,34 +67,32 @@ const UsersPage = () => {
     setIsDeleteOpen(false);
   };
 
-  const handleAddUser = (data) => {
+  const handleAddUser = async (data) => {
     setLoading(true);
-    dispatch(createUserThunk(data))
-      .unwrap()
-      .then(() => {
-        setIsAddOpen(false);
-        dispatch(fetchUsers({ page }));
-      })
-      .finally(() => setLoading(false));
+    try {
+      await dispatch(createUserThunk(data)).unwrap();
+      setIsAddOpen(false);
+      dispatch(fetchUsers({ page }));
+    } catch (err) {
+      if (err.statusCode === 409) throw "رقم الهاتف موجود بالفعل";
+      else throw "حدث خطأ";
+    } finally {
+      setLoading(false);
+    }
   };
 
-  // const handleBlockUser = () => {
-  //   setLoading(true);
-  //   dispatch(updateUserThunk({ id: selectedUser.id, data: { suspend: !selectedUser.suspend } }))
-  //     .unwrap()
-  //     .then(() => setIsBanOpen(false))
-  //     .finally(() => setLoading(false));
-  // };
-
-  const handleEditUser = (data) => {
+  const handleEditUser = async (data) => {
     setLoading(true);
-    dispatch(updateUserThunk({ id: selectedUser.id, data }))
-      .unwrap()
-      .then(() => {
-        setIsEditOpen(false);
-        dispatch(fetchUsers({ page }));
-      })
-      .finally(() => setLoading(false));
+    try {
+      await dispatch(updateUserThunk({ id: selectedUser.id, data })).unwrap();
+      setIsEditOpen(false);
+      dispatch(fetchUsers({ page }));
+    } catch (err) {
+      if (err.statusCode === 409) throw "رقم الهاتف موجود بالفعل";
+      else throw "حدث خطأ";
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleDeleteUser = () => {

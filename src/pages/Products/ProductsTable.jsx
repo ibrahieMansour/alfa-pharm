@@ -17,6 +17,7 @@ const UsersTable = ({ products, onView, onEdit, onDelete }) => {
           <th className="table-head">#</th>
           <th className="table-head">اسم المنتج</th>
           <th className="table-head">الكمية</th>
+          <th className="table-head">السعر</th>
           <th className="table-head">التحكم</th>
           <th className="table-head">تفاصيل</th>
         </tr>
@@ -27,10 +28,11 @@ const UsersTable = ({ products, onView, onEdit, onDelete }) => {
         <tbody className="table-body">
           {products?.map((e, i) => {
             return (
-              <tr key={e?.id || i} className="table-row">
+              <tr key={e?.id || i} className={`table-row ${e.isView ? "" : "baned"}`}>
                 <td className="table-cell">{i + 1}</td>
                 <td className="table-cell">{e.name}</td>
                 <td className="table-cell">{e.stock}</td>
+                <td className="table-cell">{e.price}</td>
                 <td className="table-cell">
                   <div className="flex items-center justify-center gap-3">
                     <button

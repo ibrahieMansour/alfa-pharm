@@ -49,7 +49,9 @@ api.interceptors.response.use(
         );
 
         const newAccess = data.data.access_token;
+        const newRefresh = data.data.refresh_token;
         localStorage.setItem("access_token", newAccess);
+        localStorage.setItem("refresh_token", newRefresh);
         originalRequest.headers.Authorization = `Bearer ${newAccess}`;
         return api(originalRequest);
       } catch (err) {

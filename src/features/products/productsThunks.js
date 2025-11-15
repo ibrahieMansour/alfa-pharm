@@ -19,7 +19,6 @@ export const searchProductsThunk = createAsyncThunk(
       const res = await api.get(
         `/products/search-admin?search=${search}&page=${page}&limit=${limit}`
       );
-      console.log(res.data)
       return res.data;
     } catch (err) {
       return thunkAPI.rejectWithValue(err.response?.data || err.message);

@@ -57,7 +57,7 @@ const ViewProductsModal = ({ product, onClose }) => {
         <div className="field">
           <p className="label">الكمية</p>
           <p className="flex-1 py-2 px-3 rounded-lg text-xs text-[#414651] bg-white">
-            {product?.stock || <>&nbsp;</>}
+            {product?.stock || 0}
           </p>
         </div>
 

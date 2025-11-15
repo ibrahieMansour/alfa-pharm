@@ -92,7 +92,7 @@ const OrdersPage = () => {
       // ✅ Cleanup interval on unmount or change
       return () => clearInterval(interval);
     }
-  }, [page, dispatch, isSearching, filters]);
+  }, [page, dispatch, isSearching]);
 
 
   const handleUpdateOrderStatus = (data) => {

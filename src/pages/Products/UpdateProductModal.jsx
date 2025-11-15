@@ -8,12 +8,12 @@ import ProductsModalIcon from "@/assets/icons/products-modal.svg";
 
 const UpdateProductsModal = ({ product, onConfirm, onClose, loading }) => {
   const [form, setForm] = useState({
-    name: product?.name || "",
-    description: product?.description || "",
-    price: product?.price || "0",
-    stock: product?.stock || "0",
+    name: product?.name,
+    description: product?.description,
+    price: product?.price,
+    stock: product?.stock,
     image: null, // no default URL image
-    isView: product?.isView || true, // added isView
+    isView: product?.isView, // added isView
   });
 
   const [error, setError] = useState("");
@@ -53,7 +53,6 @@ const UpdateProductsModal = ({ product, onConfirm, onClose, loading }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!validateForm()) return;
-
     const changedData = {};
 
     // Compare fields to detect changes
@@ -74,7 +73,7 @@ const UpdateProductsModal = ({ product, onConfirm, onClose, loading }) => {
     }
 
     onConfirm(changedData);
-    // console.log(changedData);
+    console.log(changedData);
   };
 
   return (
@@ -93,7 +92,7 @@ const UpdateProductsModal = ({ product, onConfirm, onClose, loading }) => {
         <InputField
           id="name"
           label="اسم المنتج"
-          value={form.name}
+          value={form.name || ""}
           onChange={(e) => handleChange("name", e.target.value)}
           required
         />
@@ -101,7 +100,7 @@ const UpdateProductsModal = ({ product, onConfirm, onClose, loading }) => {
         <InputField
           id="description"
           label="الوصف (اختياري)"
-          value={form.description}
+          value={form.description || ""}
           maxLength={150}
           onChange={(e) => handleChange("description", e.target.value)}
         />
@@ -112,7 +111,7 @@ const UpdateProductsModal = ({ product, onConfirm, onClose, loading }) => {
           type="number"
           step="0.01"
           min="0"
-          value={form.price}
+          value={form.price || "0"}
           onChange={(e) => handleChange("price", e.target.value)}
           required
         />
@@ -122,7 +121,7 @@ const UpdateProductsModal = ({ product, onConfirm, onClose, loading }) => {
           label="المخزون (اختياري)"
           type="number"
           min="0"
-          value={form.stock}
+          value={form.stock || "0"}
           onChange={(e) => handleChange("stock", e.target.value)}
         />
 

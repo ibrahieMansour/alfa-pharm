@@ -54,7 +54,7 @@ const UpdateAdminModal = ({ admin, onConfirm, onClose, loading }) => {
     return true;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!validateForm()) return;
 
@@ -71,7 +71,12 @@ const UpdateAdminModal = ({ admin, onConfirm, onClose, loading }) => {
       return;
     }
 
-    onConfirm(changedData);
+    try {
+      await onConfirm(changedData);
+      setError("");
+    } catch (errMsg) {
+      setError(errMsg);
+    }
   };
 
   return (

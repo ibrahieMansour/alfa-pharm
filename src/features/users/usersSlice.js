@@ -63,18 +63,6 @@ const userSlice = createSlice({
           state.users[index] = action.payload;
         }
       });
-
-    // ✏️ Update user
-    // .addCase(updateUserThunk.fulfilled, (state, { payload }) => {
-    //   const { id, suspend } = payload;
-
-    //   const user = state.users?.find((u) => u.id === id);
-    //   if (user) user.suspend = suspend;
-
-    //   if (state.currentUser?.id === id) {
-    //     state.currentUser.suspend = suspend;
-    //   }
-    // });
   },
 });
 

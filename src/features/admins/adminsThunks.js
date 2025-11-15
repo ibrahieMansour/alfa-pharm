@@ -10,15 +10,6 @@ export const fetchAdmins = createAsyncThunk("admins/fetch", async (_, thunkAPI) 
   }
 });
 
-// export const getAdminByIdThunk = createAsyncThunk("admin/getById", async (id, thunkAPI) => {
-//   try {
-//     const res = await api.get(`/admin/${id}`);
-//     return res.data.data;
-//   } catch (err) {
-//     return thunkAPI.rejectWithValue(err.response?.data || err.message);
-//   }
-// });
-
 export const createAdminThunk = createAsyncThunk("admin/create", async (data, thunkAPI) => {
   try {
     const res = await api.post(`/admin`, data);

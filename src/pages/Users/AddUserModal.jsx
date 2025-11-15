@@ -55,25 +55,30 @@ const AddUserModal = ({ onConfirm, onClose, loading }) => {
     return true;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const { name, phone, address, password } = form;
     if (!validateForm()) return;
 
-    onConfirm({
-      phone: "2" + phone,
-      name,
-      password,
-      address,
-    });
+    try {
+      await onConfirm({
+        phone: "2" + phone,
+        name,
+        password,
+        address,
+      });
+      setError("");
+      setForm({
+        name: "",
+        phone: "",
+        address: "",
+        password: "",
+        confirmPassword: "",
+      });
+    } catch (errMsg) {
+      setError(errMsg);
+    }
 
-    // setForm({
-    //   name: "",
-    //   phone: "",
-    //   address: "",
-    //   password: "",
-    //   confirmPassword: "",
-    // });
   };
 
   return (
@@ -121,9 +126,8 @@ const AddUserModal = ({ onConfirm, onClose, loading }) => {
 
         {/* 🧩 Fixed-height error message area */}
         <p
-          className={`h-3 text-[10px] text-center font-medium transition-all ${
-            error ? "text-red-500 opacity-100" : "opacity-0"
-          }`}
+          className={`h-3 text-[10px] text-center font-medium transition-all ${error ? "text-red-500 opacity-100" : "opacity-0"
+            }`}
         >
           {error || ""}
         </p>

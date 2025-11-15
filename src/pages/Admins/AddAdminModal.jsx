@@ -62,17 +62,22 @@ const AddUserModal = ({ onConfirm, onClose, loading }) => {
     return true;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const { name, phone, email, password } = form;
     if (!validateForm()) return;
 
-    onConfirm({
-      phone: "2" + phone,
-      name,
-      email,
-      password,
-    });
+    try {
+      await onConfirm({
+        phone: "2" + form.phone,
+        name: form.name,
+        email: form.email,
+        password: form.password,
+      });
+      setError("");
+    } catch (errMsg) {
+      setError(errMsg);
+    }
   };
 
   return (
@@ -126,9 +131,8 @@ const AddUserModal = ({ onConfirm, onClose, loading }) => {
 
         {/* 🧩 Fixed-height error message area */}
         <p
-          className={`h-3 text-[10px] text-center font-medium transition-all ${
-            error ? "text-red-500 opacity-100" : "opacity-0"
-          }`}
+          className={`h-3 text-[10px] text-center font-medium transition-all ${error ? "text-red-500 opacity-100" : "opacity-0"
+            }`}
         >
           {error || ""}
         </p>

@@ -126,10 +126,19 @@ function ProfilePage() {
       return;
     }
 
-    dispatch(updateMyProfileThunk(changedData)).then(() => {
-      setEditMode(false);
-      setError("");
-    });
+    dispatch(updateMyProfileThunk(changedData))
+      .unwrap()
+      .then(() => {
+        setEditMode(false);
+        setError("");
+      })
+      .catch((err) => {
+        if (err.statusCode === 409) {
+          setError("هذا الهاتف مسجل بالفعل");
+        }else{
+          setError("حدث خطأ");
+        }
+      })
   };
 
   return (

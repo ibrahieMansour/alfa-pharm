@@ -7,8 +7,6 @@ import FillTableRow from "@/components/FillTableRow";
 import LeftAngle from "@/assets/icons/left-angle.svg";
 import EditIcon from "@/assets/icons/edit.svg";
 import DeleteIcon from "@/assets/icons/delete.svg";
-import LockIcon from "@/assets/icons/lock-icon.svg";
-import UnLockIcon from "@/assets/icons/un-lock-icon.svg";
 
 const UsersTable = ({ users, onBan, onEdit, onDelete }) => {
   const { loading } = useSelector((state) => state.users);

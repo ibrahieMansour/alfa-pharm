@@ -39,28 +39,30 @@ const AdminsPage = () => {
     setIsDeleteOpen(false);
   };
 
-  const handleAddAdmin = (data) => {
+  const handleAddAdmin = async (data) => {
     setLoading(true);
-    dispatch(createAdminThunk(data))
-      .unwrap()
-      .then(() => {
-        setIsAddOpen(false);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+    try {
+      await dispatch(createAdminThunk(data)).unwrap();
+      setIsAddOpen(false);
+    } catch (err) {
+      if (err.statusCode === 409) throw "رقم الهاتف موجود بالفعل";
+      else throw "حدث خطأ";
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const handleUpdateAdmin = (data) => {
+  const handleUpdateAdmin = async (data) => {
     setLoading(true);
-    dispatch(updateAdminThunk({ id: selectedAdmin.id, data }))
-      .unwrap()
-      .then(() => {
-        setIsUpdateOpen(false);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+    try {
+      await dispatch(updateAdminThunk({ id: selectedAdmin.id, data })).unwrap();
+      setIsUpdateOpen(false);
+    } catch (err) {
+      if (err.statusCode === 409) throw "رقم الهاتف موجود بالفعل";
+      else throw "حدث خطأ";
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleDeleteAdmin = () => {

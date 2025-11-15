@@ -16,6 +16,7 @@ import BellIcon from "@/assets/icons/bell.svg";
 
 export const Header = ({ collapsed, setCollapsed, isDesktopDevice }) => {
   const dispatch = useDispatch();
+  const { admin } = useSelector(state => state.auth)
   const unreadCount = useSelector(selectUnreadNotificationsCount);
 
   const [openDropdown, setOpenDropdown] = useState(false);
@@ -74,7 +75,7 @@ export const Header = ({ collapsed, setCollapsed, isDesktopDevice }) => {
             }`
           }
         >
-          <img src={Avatar} alt="user-avatar" className="w-full h-full" />
+          <img src={admin?.image || Avatar} alt="user-avatar" className="w-full h-full" onError={(e) => (e.target.src = Avatar)} />
         </NavLink>
       </div>
     </header>

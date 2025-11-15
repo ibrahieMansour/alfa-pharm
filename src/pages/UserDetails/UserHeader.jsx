@@ -2,16 +2,17 @@ import { useState } from "react";
 import { Link, replace, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
-import { updateUserThunk, deleteUserThunk } from "@/features/users/usersThunks";
+import { getUserByIdThunk, updateUserThunk, deleteUserThunk } from "@/features/users/usersThunks";
 
 import { Modal } from "@/components/Modal";
 import { cn } from "@/utils/cn";
 
+import UpdateUserModal from "./UpdateUserModal";
+
 import RightArrow from "@/assets/icons/right-arrow-black.svg";
 import BlockModalIcon from "@/assets/icons/block-modal-icon.svg";
+import EditIcon from "@/assets/icons/edit.svg";
 import DeleteIcon from "@/assets/icons/delete.svg";
-import LockIcon from "@/assets/icons/lock-icon.svg";
-import UnLockIcon from "@/assets/icons/un-lock-icon.svg";
 
 const UserHeader = () => {
   const dispatch = useDispatch();
@@ -19,28 +20,36 @@ const UserHeader = () => {
 
   const navigate = useNavigate();
 
-  const [isBanOpen, setIsBanOpen] = useState(false);
+  const [isEditOpen, setIsEditOpen] = useState(false);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
 
-  const [loadingBan, setLoadingBan] = useState(false);
+  const [loadingModal, setLoadingModal] = useState(false);
 
-  const handleBlockUser = () => {
-    setLoadingBan(true);
-    dispatch(updateUserThunk({ id: currentUser.id, data: { suspend: !currentUser.suspend } }))
-      .unwrap()
-      .then(() => setIsBanOpen(false))
-      .finally(() => setLoadingBan(false));
+
+
+  const handleEditUser = async (data) => {
+    setLoadingModal(true);
+    try {
+      await dispatch(updateUserThunk({ id: currentUser.id, data })).unwrap();
+      setIsEditOpen(false);
+      dispatch(getUserByIdThunk(currentUser.id));
+    } catch (err) {
+      if (err.statusCode === 409) throw "رقم الهاتف موجود بالفعل";
+      else throw "حدث خطأ";
+    } finally {
+      setLoadingModal(false);
+    }
   };
 
   const handleDeleteUser = () => {
-    setLoadingBan(true);
+    setLoadingModal(true);
     dispatch(deleteUserThunk(currentUser.id))
       .unwrap()
       .then(() => {
         setIsDeleteOpen(false);
         navigate("/users", { replace: true });
       })
-      .finally(() => setLoadingBan(false));
+      .finally(() => setLoadingModal(false));
   };
 
   return (
@@ -59,10 +68,10 @@ const UserHeader = () => {
           </div>
         ) : (
           <div className="flex items-center justify-center gap-3">
-            <button className="opacity-50 hover:opacity-100" onClick={() => setIsBanOpen(true)}>
+            <button className="opacity-50 hover:opacity-100" onClick={() => setIsEditOpen(true)}>
               <img
-                src={currentUser?.suspend ? LockIcon : UnLockIcon}
-                alt="suspend status"
+                src={EditIcon}
+                alt="Edit"
                 className="w-5 h-5"
               />
             </button>
@@ -74,27 +83,13 @@ const UserHeader = () => {
       </div>
 
       {/* block modal */}
-      {isBanOpen && (
-        <Modal
-          theme={currentUser?.suspend ? "outline_danger" : "danger"}
-          confirmText={currentUser?.suspend ? "فك الحظر" : "حظر"}
-          loading={loadingBan}
-          onClose={() => setIsBanOpen(false)}
-          onConfirm={handleBlockUser}
-        >
-          <div className="flex flex-col items-center gap-y-1 sm:gap-y-4">
-            <div className="inline-block bg-[#f11b1b14] p-3 sm:p-4 rounded-2xl">
-              <img src={BlockModalIcon} alt="logout-modal-icon" className="w-6 h-6" />
-            </div>
-            <h5 className="font-bold text-sm">
-              {currentUser?.suspend ? "فك حظر المستخدم" : "حظر المستخدم"}
-            </h5>
-            <p className="font-normal text-xs">
-              هل انت متأكد من {currentUser?.suspend ? "فك الحظر عن" : "حظر"} المستخدم{" "}
-              {currentUser?.name}؟
-            </p>
-          </div>
-        </Modal>
+      {isEditOpen && (
+        <UpdateUserModal
+          user={currentUser}
+          onConfirm={handleEditUser}
+          onClose={() => setIsEditOpen(false)}
+          loading={loadingModal}
+        />
       )}
 
       {/* delete modal */}
@@ -102,7 +97,7 @@ const UserHeader = () => {
         <Modal
           theme={"danger"}
           confirmText={"حذف"}
-          loading={loadingBan}
+          loading={loadingModal}
           onClose={() => setIsDeleteOpen(false)}
           onConfirm={handleDeleteUser}
         >
@@ -122,14 +117,3 @@ const UserHeader = () => {
 };
 
 export default UserHeader;
-
-// <button
-//   type="button"
-//   className={cn(
-//     "w-[100px] border border-[#FA0404] rounded-lg py-2 text-black font-bold text-[10px]",
-//     currentUser?.suspend ? "bg-transparent" : "bg-[#fa04041a]"
-//   )}
-//   onClick={() => setIsBanOpen(true)}
-// >
-//   {currentUser?.suspend ? "تفعيل" : "حظر"}
-// </button>

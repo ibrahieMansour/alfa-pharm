@@ -32,7 +32,7 @@ const OrderDetails = ({ order, showDetails, setShowDetails }) => {
     setTimeout(() => {
       dispatch(updateOrderStatusThunk({ id: currentOrder.id, data }))
         .unwrap()
-        .then(() => {})
+        .then(() => { })
         .finally(() => {
           setLoadingStatus(false);
         });
@@ -59,7 +59,7 @@ const OrderDetails = ({ order, showDetails, setShowDetails }) => {
         <div className="bg-[#dde2dc] rounded-xl py-1 flex flex-col items-center gap-y-3">
           <h4 className="text-xs font-medium">المستخدم</h4>
           <div className="w-20 h-20 border-2 border-[#F4EBD0] rounded-full overflow-hidden">
-            <img src={Avatar} alt="" className="w-full h-full object-cover" />
+            <img src={currentOrder?.user?.image || Avatar} alt="" className="w-full h-full object-cover" onError={(e) => e.target.src = Avatar} />
           </div>
           <h5 className="text-[10px] font-medium">{currentOrder?.user?.name}</h5>
         </div>
@@ -86,12 +86,10 @@ const OrderDetails = ({ order, showDetails, setShowDetails }) => {
                   <li
                     key={status}
                     onClick={() => handleSelect(status)}
-                    className={`cursor-pointer select-none text-xs border p-2 ${
-                      statusStyles[status].hover
-                    } ${
-                      currentOrder.status === status &&
+                    className={`cursor-pointer select-none text-xs border p-2 ${statusStyles[status].hover
+                      } ${currentOrder.status === status &&
                       `${statusStyles[status].class} ${statusStyles[status].border} font-semibold`
-                    }`}
+                      }`}
                   >
                     {order.status === status && <span className="inline-block ml-3">&#10004;</span>}
                     {statusStyles[status].text}
