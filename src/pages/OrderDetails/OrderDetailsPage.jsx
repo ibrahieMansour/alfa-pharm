@@ -22,7 +22,7 @@ import AddItemModal from "./AddItemModal";
 
 const OrderDetailsPage = () => {
   const { id } = useParams();
-  const { currentOrder } = useSelector((state) => state.orders);
+  const { currentOrder ,loading} = useSelector((state) => state.orders);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -135,6 +135,7 @@ const OrderDetailsPage = () => {
         <div className="w-[1px] h-3/4 max-sm:hidden bg-[repeating-linear-gradient(to_bottom,_#E97E39_0,_#E97E39_5px,_#dde2dc_5px,_#dde2dc_10px)]"></div>
         <OrderItems
           items={currentOrder.items}
+          loading={loading}
           showDetails={showDetails}
           setShowDetails={setShowDetails}
           onUpdate={(item) => {

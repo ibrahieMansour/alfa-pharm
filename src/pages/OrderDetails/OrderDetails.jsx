@@ -10,7 +10,7 @@ import Avatar from "@/assets/images/avatar.png";
 import BottomAngle from "@/assets/icons/bottom-angle.svg";
 
 const OrderDetails = ({ order, showDetails, setShowDetails }) => {
-  const { currentOrder } = useSelector((state) => state.orders);
+  const { currentOrder, loading } = useSelector((state) => state.orders);
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
   const [loadingStatus, setLoadingStatus] = useState(false);
@@ -58,70 +58,111 @@ const OrderDetails = ({ order, showDetails, setShowDetails }) => {
       <div className="p-[1px] bg-gradient-to-r from-[#E97E39] to-[#5EB756] rounded-xl overflow-hidden">
         <div className="bg-[#dde2dc] rounded-xl py-1 flex flex-col items-center gap-y-3">
           <h4 className="text-xs font-medium">المستخدم</h4>
-          <div className="w-20 h-20 border-2 border-[#F4EBD0] rounded-full overflow-hidden">
-            <img src={currentOrder?.user?.image || Avatar} alt="" className="w-full h-full object-cover" onError={(e) => e.target.src = Avatar} />
-          </div>
-          <h5 className="text-[10px] font-medium">{currentOrder?.user?.name}</h5>
+          {/* IMAGE or LOADING */}
+          {loading ? (
+            <div className="w-20 h-20 rounded-full bg-gray-300 animate-pulse" />
+          ) : (
+            <div className="w-20 h-20 border-2 border-[#F4EBD0] rounded-full overflow-hidden">
+              <img src={currentOrder?.user?.image || Avatar} alt="user avatar" className="w-full h-full object-cover" onError={(e) => e.target.src = Avatar} />
+            </div>
+          )}
+          {loading ? (
+            <div className="w-16 h-3 bg-gray-300 animate-pulse rounded" />
+          ) : (
+            <h5 className="text-[10px] font-medium">{currentOrder?.user?.name}</h5>
+          )}
         </div>
       </div>
 
       <div className="flex-1 p-[1px] bg-gradient-to-r from-[#E97E39] to-[#5EB756] rounded-xl overflow-hidden">
         <div className="h-full bg-[#dde2dc] rounded-xl py-1 px-4 flex flex-col items-stretch gap-y-3">
+
           <h4 className="text-xs font-medium self-center">التفاصيل</h4>
 
+          {/* STATUS DROPDOWN */}
           <div ref={menuRef} className="relative w-full my-6">
-            <div className="pr-[1px] pb-[1px] bg-gradient-to-r from-[#E97E39] to-[#5EB756] rounded-lg overflow-hidden">
-              <button
-                onClick={() => !loadingStatus && setOpen((prev) => !prev)}
-                className={`flex w-full items-center justify-between rounded-lg bg-white text-sm p-2 text-[#737373]`}
-              >
-                <span>{statusStyles[currentOrder.status]?.text}</span>
-                <img src={BottomAngle} alt="" className="w-3 h-3" />
-              </button>
-            </div>
-
-            {open && (
-              <ul className="absolute z-10 mt-1 w-full rounded bg-gray-50">
-                {["PENDING", "CONFIRMED", "SHIPPED", "COMPLETED", "CANCELLED"].map((status) => (
-                  <li
-                    key={status}
-                    onClick={() => handleSelect(status)}
-                    className={`cursor-pointer select-none text-xs border p-2 ${statusStyles[status].hover
-                      } ${currentOrder.status === status &&
-                      `${statusStyles[status].class} ${statusStyles[status].border} font-semibold`
-                      }`}
+            {loading ? (
+              <div className="w-full h-8 bg-gray-300 animate-pulse rounded-lg" />
+            ) : (
+              <>
+                <div className="pr-[1px] pb-[1px] bg-gradient-to-r from-[#E97E39] to-[#5EB756] rounded-lg overflow-hidden">
+                  <button
+                    onClick={() => !loadingStatus && setOpen((prev) => !prev)}
+                    className="flex w-full items-center justify-between rounded-lg bg-white text-sm p-2 text-[#737373]"
                   >
-                    {order.status === status && <span className="inline-block ml-3">&#10004;</span>}
-                    {statusStyles[status].text}
-                  </li>
-                ))}
-              </ul>
+                    <span>{statusStyles[currentOrder.status]?.text}</span>
+                    <img src={BottomAngle} className="w-3 h-3" />
+                  </button>
+                </div>
+
+                {open && (
+                  <ul className="absolute z-10 mt-1 w-full rounded bg-gray-50">
+                    {["PENDING", "CONFIRMED", "SHIPPED", "COMPLETED", "CANCELLED"].map((status) => (
+                      <li
+                        key={status}
+                        onClick={() => handleSelect(status)}
+                        className={`cursor-pointer select-none text-xs border p-2 ${statusStyles[status].hover} 
+                          ${currentOrder.status === status && `${statusStyles[status].class} ${statusStyles[status].border} font-semibold`}`}
+                      >
+                        {currentOrder.status === status && <span className="inline-block ml-3">&#10004;</span>}
+                        {statusStyles[status].text}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </>
             )}
           </div>
 
+          {/* INFO LIST */}
           <div className="flex-1 flex flex-col justify-center gap-y-3">
+
+            {/* Order Code */}
             <div className="w-full flex justify-between items-center">
               <p className="text-[11px] font-bold">رمز الطلب</p>
-              <p className="text-[11px] font-bold text-[#93A0B9]">{currentOrder.orderNumber}</p>
+              {loading ? (
+                <div className="w-20 h-3 bg-gray-300 animate-pulse rounded" />
+              ) : (
+                <p className="text-[11px] font-bold text-[#93A0B9]">{currentOrder.orderNumber}</p>
+              )}
             </div>
+
+            {/* Date */}
             <div className="w-full flex justify-between items-center">
               <p className="text-[11px] font-bold">تاريخ الطلب</p>
-              <p className="text-[11px] font-bold text-[#93A0B9]">{formatDate(currentOrder.createdAt)}</p>
+              {loading ? (
+                <div className="w-24 h-3 bg-gray-300 animate-pulse rounded" />
+              ) : (
+                <p className="text-[11px] font-bold text-[#93A0B9]">
+                  {formatDate(currentOrder.createdAt)}
+                </p>
+              )}
             </div>
+
+            {/* Items Count */}
             <div className="w-full flex justify-between items-center">
               <p className="text-[11px] font-bold">عدد المنتجات</p>
-              <p className="text-[11px] font-bold text-[#93A0B9]">
-                {currentOrder.items?.reduce((total, item) => {
-                  return total + item.quantity;
-                }, 0)}
-              </p>
+              {loading ? (
+                <div className="w-10 h-3 bg-gray-300 animate-pulse rounded" />
+              ) : (
+                <p className="text-[11px] font-bold text-[#93A0B9]">
+                  {currentOrder.items?.reduce((t, i) => t + i.quantity, 0)}
+                </p>
+              )}
             </div>
+
+            {/* Total Amount */}
             <div className="w-full flex justify-between items-center">
               <p className="text-[11px] font-bold">المبلغ الكلي</p>
-              <p className="text-[11px] font-bold text-[#93A0B9]">
-                {parseFloat(currentOrder.totalAmount).toFixed(2)} ج.م
-              </p>
+              {loading ? (
+                <div className="w-14 h-3 bg-gray-300 animate-pulse rounded" />
+              ) : (
+                <p className="text-[11px] font-bold text-[#93A0B9]">
+                  {parseFloat(currentOrder.totalAmount).toFixed(2)} ج.م
+                </p>
+              )}
             </div>
+
           </div>
         </div>
       </div>

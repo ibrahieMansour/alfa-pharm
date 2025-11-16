@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
 import api from "@/api/api";
 import { Modal } from "@/components/Modal";
+
 import OrdersModalIcon from "../../assets/icons/orders-modal.svg";
+import DefaultImage from "../../assets/images/default-image.png"
 
 const AddItemModal = ({ onConfirm, onClose, loading }) => {
   const [search, setSearch] = useState("");
@@ -89,7 +91,9 @@ const AddItemModal = ({ onConfirm, onClose, loading }) => {
                   onClick={() => handleSelectProduct(p)}
                   className="px-3 py-2 hover:bg-gray-100 cursor-pointer flex items-center gap-2"
                 >
-                  <img src={p.image} alt={p.name} className="w-8 h-8 rounded object-cover" />
+                  <img src={p.image || DefaultImage} alt={p.name} className="w-8 h-8 rounded object-cover" onError={(e) => {
+                    e.currentTarget.src = DefaultImage;
+                  }} />
                   <span>{p.name}</span>
                 </li>
               ))}
@@ -107,9 +111,12 @@ const AddItemModal = ({ onConfirm, onClose, loading }) => {
               >
                 <div className="flex items-center gap-2">
                   <img
-                    src={item.image}
+                    src={item.image || DefaultImage}
                     alt={item.name}
                     className="w-10 h-10 rounded object-cover"
+                    onError={(e) => {
+                      e.currentTarget.src = DefaultImage;
+                    }}
                   />
                   <span className="font-medium">{item.name}</span>
                 </div>

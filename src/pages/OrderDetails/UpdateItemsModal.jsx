@@ -4,6 +4,7 @@ import { Modal } from "@/components/Modal";
 import InputField from "@/components/InputField";
 
 import ProductsModalIcon from "@/assets/icons/products-modal.svg";
+import DefaultImage from "../../assets/images/default-image.png"
 
 const UpdateItemsModal = ({ item, onConfirm, onClose, loading }) => {
   const [form, setForm] = useState({
@@ -78,9 +79,9 @@ const UpdateItemsModal = ({ item, onConfirm, onClose, loading }) => {
               src={item?.product.image}
               alt="avatar-image"
               className="w-full h-full object-cover"
-              // onError={(e) => {
-              //   e.currentTarget.src = DefaultImage;
-              // }}
+              onError={(e) => {
+                e.currentTarget.src = DefaultImage;
+              }}
             />
           </div>
           <p className="text-[#414651] font-medium text-xs">صورة المنتج</p>

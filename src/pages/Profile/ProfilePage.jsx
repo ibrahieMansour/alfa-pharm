@@ -16,6 +16,7 @@ import Avatar from "@/assets/images/avatar.png";
 function ProfilePage() {
   const dispatch = useDispatch();
   const admin = useSelector((state) => state.auth.admin);
+  console.log(admin);
 
   const fileRef = useRef(null);
 

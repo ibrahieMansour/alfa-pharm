@@ -14,7 +14,9 @@ const UserInfo = () => {
             <div className="w-24 h-24 sm:w-32 sm:h-32 rounded-full bg-gray-200 animate-pulse" />
           ) : (
             <div className="w-24 h-24 sm:w-32 sm:h-32 border border-[#F4EBD0] rounded-full overflow-hidden">
-              <img src={currentUser?.image || Avatar} alt="avatar-img" className="w-full h-full" />
+              <img src={currentUser?.image || Avatar} alt="avatar-img" className="w-full h-full" onError={(e) => {
+                e.currentTarget.src = Avatar;
+              }} />
             </div>
           )}
 

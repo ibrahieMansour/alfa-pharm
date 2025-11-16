@@ -13,6 +13,7 @@ import { formatDate } from "@/utils/formatDate";
 
 import NotificationReadIcon from "../assets/icons/notification-read.svg"
 import NotificationDeleteIcon from "../assets/icons/delete.svg"
+import DefaultImage from "../assets/images/default-image.png"
 
 const NotificationsDropdown = forwardRef(function NotificationsDropdown(
   { open, onClose, anchorRef },
@@ -66,9 +67,12 @@ const NotificationsDropdown = forwardRef(function NotificationsDropdown(
               {/* صورة المستخدم */}
               <div className="w-10 h-10 rounded-full overflow-hidden">
                 <img
-                  src={n.order?.user?.image}
+                  src={n.order?.user?.image || DefaultImage}
                   alt={n.order?.user?.name}
                   className="w-full h-full object-cover"
+                  onError={(e) => {
+                    e.currentTarget.src = DefaultImage;
+                  }}
                 />
               </div>
 
