@@ -3,10 +3,10 @@ import { Modal } from "@/components/Modal";
 import DefaultImage from "@/assets/images/default-image.png";
 import ProductsModalIcon from "@/assets/icons/products-modal.svg";
 
-const ViewProductsModal = ({ product, onClose }) => {
+const ViewCategoryModal = ({ category, onClose }) => {
   return (
     <Modal
-      title="بيانات المنتج"
+      title="بيانات التصنيف"
       icon={ProductsModalIcon}
       footer={false}
       width={550}
@@ -17,7 +17,7 @@ const ViewProductsModal = ({ product, onClose }) => {
         <div className="flex flex-col items-center justify-center gap-y-2">
           <div className="w-20 h-20 rounded-full overflow-hidden border border-[#5D5D5D]">
             <img
-              src={product?.image || DefaultImage}
+              src={category?.image || DefaultImage}
               alt="avatar-image"
               className="w-full h-full object-cover"
               onError={(e) => {
@@ -25,46 +25,22 @@ const ViewProductsModal = ({ product, onClose }) => {
               }}
             />
           </div>
-          <p className="text-[#414651] font-medium text-xs">صورة المنتج</p>
+          <p className="text-[#414651] font-medium text-xs">صورة التصنيف</p>
         </div>
 
         {/* name section */}
         <div className="field">
-          <p className="label">اسم المنتج</p>
+          <p className="label">اسم التصنيف</p>
           <p className="flex-1 py-2 px-3 rounded-lg text-xs text-[#414651] bg-white">
-            {product?.name}
+            {category?.name}
           </p>
         </div>
 
         {/* description section */}
         <div className="field">
-          <p className="label">الوصف</p>
+          <p className="label">الاولوية</p>
           <p className="flex-1 py-2 px-3 rounded-lg text-xs text-[#414651] bg-white">
-            {product?.description || <>&nbsp;</>}
-          </p>
-        </div>
-
-        {/* price section */}
-        <div className="field">
-          <p className="label">السعر</p>
-          <p className="flex-1 py-2 px-3 rounded-lg text-xs text-[#414651] bg-white">
-            {product?.price}
-          </p>
-        </div>
-
-        {/* stock section */}
-        <div className="field">
-          <p className="label">الكمية</p>
-          <p className="flex-1 py-2 px-3 rounded-lg text-xs text-[#414651] bg-white">
-            {product?.stock || 0}
-          </p>
-        </div>
-
-        {/* stock category */}
-        <div className="field">
-          <p className="label">القسم</p>
-          <p className="flex-1 py-2 px-3 rounded-lg text-xs text-[#414651] bg-white">
-            {product?.category?.name || <>&nbsp;</>}
+            {category?.priority || <>&nbsp;</>}
           </p>
         </div>
 
@@ -72,7 +48,7 @@ const ViewProductsModal = ({ product, onClose }) => {
         <div className="field">
           <p className="label">الحالة</p>
           <p className="flex-1 py-2 px-3 rounded-lg text-xs text-[#414651] bg-white">
-            {product?.isView ? "مرئي" : "غير مرئي"}
+            {category?.isView ? "مرئي" : "غير مرئي"}
           </p>
         </div>
       </div>
@@ -80,4 +56,4 @@ const ViewProductsModal = ({ product, onClose }) => {
   );
 };
 
-export default ViewProductsModal;
+export default ViewCategoryModal;

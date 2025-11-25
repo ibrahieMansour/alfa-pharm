@@ -10,6 +10,7 @@ import AuthLayout from "@/components/layout/AuthLayout";
 import DashboardLayout from "@/components/layout/DashboardLayout";
 
 import SignInPage from "@/pages/Auth/SignIn/SignInPage";
+import CategoriesPage from "./pages/Categories/CategoriesPage";
 import ProductsPage from "@/pages/Products/ProductsPage";
 import UsersPage from "@/pages/Users/UsersPage";
 import UserDetailsPage from "@/pages/UserDetails/UserDetailsPage";
@@ -43,6 +44,7 @@ function App() {
           {/* Protected routes (only when logged in) */}
           <Route element={<ProtectedRoute />}>
             <Route element={<DashboardLayout />}>
+            <Route path="/categories" element={<CategoriesPage />} />
               <Route path="/products" element={<ProductsPage />} />
               <Route path="/users">
                 <Route index element={<UsersPage />} />

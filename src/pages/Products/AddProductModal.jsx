@@ -2,20 +2,26 @@ import { useState } from "react";
 
 import { Modal } from "@/components/Modal";
 import InputField from "@/components/InputField";
+import { InputFieldWithDataList } from "@/components/InputFieldWithDataList";
 
 import ImageUpload from "./ImageUpload";
 
 import ProductsModalIcon from "@/assets/icons/products-modal.svg";
+import { useSelector } from "react-redux";
 
 const AddProductModal = ({ onConfirm, onClose, loading }) => {
+  const { categories } = useSelector((state) => state.products);
+
   const [form, setForm] = useState({
     name: "",
     description: "",
     price: "",
     stock: "",
+    categoryId: "",
     image: null,
     isView: true, // ✅ added isView default
   });
+  const [categoryName, setCategoryName] = useState("")
   const [error, setError] = useState("");
 
   const handleChange = (key, value) => {
@@ -28,9 +34,9 @@ const AddProductModal = ({ onConfirm, onClose, loading }) => {
   };
 
   const validateForm = () => {
-    const { name, price, stock, image } = form;
+    const { name, price, stock, image, categoryId } = form;
 
-    if (!name || !price) {
+    if (!name || !price || !setCategoryName) {
       setError("من فضلك املأ الحقول المطلوبة");
       return false;
     }
@@ -42,6 +48,13 @@ const AddProductModal = ({ onConfirm, onClose, loading }) => {
 
     if (stock && stock < 0) {
       setError("الكمية لا يمكن أن تكون رقمًا سالبًا");
+      return false;
+    }
+
+    const matched = categories.find((cat) => cat.id === form.categoryId);
+
+    if (!matched) {
+      setError("القسم غير صحيح");
       return false;
     }
 
@@ -75,7 +88,8 @@ const AddProductModal = ({ onConfirm, onClose, loading }) => {
       stock: form.stock ? parseInt(form.stock) : 0,
     };
 
-    onConfirm(productData);
+    // onConfirm(productData);
+    console.log(productData);
   };
 
   return (
@@ -88,8 +102,35 @@ const AddProductModal = ({ onConfirm, onClose, loading }) => {
       onConfirm={handleSubmit}
       loading={loading}
     >
-      <form onSubmit={handleSubmit} className="flex flex-col gap-y-4">
+      <form onSubmit={handleSubmit} className="flex flex-col gap-y-2">
         <ImageUpload label="صورة المنتج" onChange={handleImageChange} />
+
+        {/* <InputField
+          id="category"
+          label="القسم"
+          value={form.category}
+          onChange={(e) => handleChange("category", e.target.value)}
+          required
+          list="categories"
+        />
+
+        <datalist id="categories">
+          {categories?.map((category) => (
+            <option key={category.id} value={category.name}>
+              {category.name}
+            </option>
+          ))}
+        </datalist> */}
+
+        <InputFieldWithDataList
+          categories={categories}
+          value={categoryName}
+          onSelect={(id, name) => {
+            setForm({ ...form, categoryId: id })
+            setCategoryName(name)
+          }
+          }
+        />
 
         <InputField
           id="name"
@@ -128,27 +169,25 @@ const AddProductModal = ({ onConfirm, onClose, loading }) => {
         />
 
         {/* ✅ isView two-button toggle */}
-        <div className="flex items-center mt-2">
+        <div className="flex items-center mt-1">
           <span className="text-xs text-[#414651] font-medium w-1/4">مرئي</span>
           <div className="flex-1 flex border border-gray-300 rounded-lg overflow-hidden font-bold text-xs">
             <button
               type="button"
-              className={`flex-1 py-2 transition-all duration-200 rounded-l-lg ${
-                !form.isView
-                  ? "bg-blue-500 text-white shadow-sm"
-                  : "bg-white text-gray-500 hover:bg-gray-100"
-              }`}
+              className={`flex-1 py-2 transition-all duration-200 rounded-l-lg ${!form.isView
+                ? "bg-blue-500 text-white shadow-sm"
+                : "bg-white text-gray-500 hover:bg-gray-100"
+                }`}
               onClick={() => handleChange("isView", false)}
             >
               غير مرئي
             </button>
             <button
               type="button"
-              className={`flex-1 py-2 transition-all duration-200 rounded-r-lg ${
-                form.isView
-                  ? "bg-blue-500 text-white shadow-sm"
-                  : "bg-white text-gray-500 hover:bg-gray-100"
-              }`}
+              className={`flex-1 py-2 transition-all duration-200 rounded-r-lg ${form.isView
+                ? "bg-blue-500 text-white shadow-sm"
+                : "bg-white text-gray-500 hover:bg-gray-100"
+                }`}
               onClick={() => handleChange("isView", true)}
             >
               مرئي
@@ -157,9 +196,8 @@ const AddProductModal = ({ onConfirm, onClose, loading }) => {
         </div>
 
         <p
-          className={`h-3 text-[10px] text-center font-medium transition-all ${
-            error ? "text-red-500 opacity-100" : "opacity-0"
-          }`}
+          className={`h-3 text-[10px] text-center font-medium transition-all ${error ? "text-red-500 opacity-100" : "opacity-0"
+            }`}
         >
           {error || ""}
         </p>

@@ -5,6 +5,11 @@ import Admins from "@/assets/icons/admins.svg?react";
 
 export const sideBarNav = [
   {
+    title: "التصنيفات",
+    icon: Products,
+    path: "/categories",
+  },
+  {
     title: "المنتجات",
     icon: Products,
     path: "/products",

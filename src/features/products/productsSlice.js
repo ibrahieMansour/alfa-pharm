@@ -11,6 +11,7 @@ import {
 const initialState = {
   products: [],
   meta: {},
+  categories: [],
   loading: false,
   error: null,
 };
@@ -33,6 +34,7 @@ const productsSlice = createSlice({
         state.loading = false;
         state.products = data;
         state.meta = meta;
+        state.categories = payload.categories;
       })
       .addCase(fetchProducts.rejected, (state, action) => {
         state.loading = false;
@@ -44,6 +46,7 @@ const productsSlice = createSlice({
         const { data, meta } = payload;
         state.products = data;
         state.meta = meta;
+        state.categories = payload.categories;
       })
 
       // ✏️ Update product
