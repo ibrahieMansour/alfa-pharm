@@ -1,21 +1,27 @@
 import { useState } from "react";
+import { useSelector } from "react-redux";
 
 import { Modal } from "@/components/Modal";
 import InputField from "@/components/InputField";
+import { InputFieldWithDataList } from "@/components/InputFieldWithDataList";
 import ImageUpload from "./ImageUpload";
 
 import ProductsModalIcon from "@/assets/icons/products-modal.svg";
 
 const UpdateProductsModal = ({ product, onConfirm, onClose, loading }) => {
+  const { categories } = useSelector((state) => state.products);
+
   const [form, setForm] = useState({
     name: product?.name,
     description: product?.description,
     price: product?.price,
     stock: product?.stock,
+    categoryId: product?.categoryId,
     image: null, // no default URL image
     isView: product?.isView, // added isView
   });
 
+  const [categoryName, setCategoryName] = useState(product?.category?.name || "");
   const [error, setError] = useState("");
 
   const handleChange = (key, value) => {
@@ -43,6 +49,13 @@ const UpdateProductsModal = ({ product, onConfirm, onClose, loading }) => {
 
     if (stock && stock < 0) {
       setError("الكمية لا يمكن أن تكون رقمًا سالبًا");
+      return false;
+    }
+
+    const matched = categories.find((cat) => cat.id === form.categoryId);
+
+    if (!matched) {
+      setError("القسم غير صحيح");
       return false;
     }
 
@@ -88,6 +101,16 @@ const UpdateProductsModal = ({ product, onConfirm, onClose, loading }) => {
       <form onSubmit={handleSubmit} className="flex flex-col gap-y-4">
         <ImageUpload label="صورة جديدة (اختياري)" onChange={handleImageChange} />
 
+        <InputFieldWithDataList
+          categories={categories}
+          value={categoryName}
+          onSelect={(id, name) => {
+            setForm({ ...form, categoryId: id })
+            setCategoryName(name)
+          }
+          }
+        />
+
         <InputField
           id="name"
           label="اسم المنتج"
@@ -125,7 +148,7 @@ const UpdateProductsModal = ({ product, onConfirm, onClose, loading }) => {
         />
 
         {/* isView two-button toggle */}
-        <div className="flex items-center mt-2">
+        <div className="flex items-center mt-1">
           <span className="text-xs text-[#414651] font-medium w-1/4">مرئي</span>
           <div className="flex-1 flex border border-gray-300 rounded-lg overflow-hidden font-bold text-xs">
             {/* False button */}

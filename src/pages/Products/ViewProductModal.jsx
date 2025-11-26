@@ -28,6 +28,14 @@ const ViewProductsModal = ({ product, onClose }) => {
           <p className="text-[#414651] font-medium text-xs">صورة المنتج</p>
         </div>
 
+        {/* category section */}
+        <div className="field">
+          <p className="label">القسم</p>
+          <p className="flex-1 py-2 px-3 rounded-lg text-xs text-[#414651] bg-white">
+            {product?.category?.name || <>&nbsp;</>}
+          </p>
+        </div>
+
         {/* name section */}
         <div className="field">
           <p className="label">اسم المنتج</p>
@@ -57,14 +65,6 @@ const ViewProductsModal = ({ product, onClose }) => {
           <p className="label">الكمية</p>
           <p className="flex-1 py-2 px-3 rounded-lg text-xs text-[#414651] bg-white">
             {product?.stock || 0}
-          </p>
-        </div>
-
-        {/* stock category */}
-        <div className="field">
-          <p className="label">القسم</p>
-          <p className="flex-1 py-2 px-3 rounded-lg text-xs text-[#414651] bg-white">
-            {product?.category?.name || <>&nbsp;</>}
           </p>
         </div>
 

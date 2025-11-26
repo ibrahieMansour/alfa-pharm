@@ -34,9 +34,9 @@ const AddProductModal = ({ onConfirm, onClose, loading }) => {
   };
 
   const validateForm = () => {
-    const { name, price, stock, image, categoryId } = form;
+    const { name, price, stock, image } = form;
 
-    if (!name || !price || !setCategoryName) {
+    if (!name || !price) {
       setError("من فضلك املأ الحقول المطلوبة");
       return false;
     }
@@ -88,8 +88,7 @@ const AddProductModal = ({ onConfirm, onClose, loading }) => {
       stock: form.stock ? parseInt(form.stock) : 0,
     };
 
-    // onConfirm(productData);
-    console.log(productData);
+    onConfirm(productData);
   };
 
   return (
@@ -104,23 +103,6 @@ const AddProductModal = ({ onConfirm, onClose, loading }) => {
     >
       <form onSubmit={handleSubmit} className="flex flex-col gap-y-2">
         <ImageUpload label="صورة المنتج" onChange={handleImageChange} />
-
-        {/* <InputField
-          id="category"
-          label="القسم"
-          value={form.category}
-          onChange={(e) => handleChange("category", e.target.value)}
-          required
-          list="categories"
-        />
-
-        <datalist id="categories">
-          {categories?.map((category) => (
-            <option key={category.id} value={category.name}>
-              {category.name}
-            </option>
-          ))}
-        </datalist> */}
 
         <InputFieldWithDataList
           categories={categories}
