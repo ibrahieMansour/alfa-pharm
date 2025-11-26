@@ -158,7 +158,7 @@ export function createInvoiceHTML(order) {
     <div class="header-container">
       <div class="logo">Alfa<span>Pharm</span></div>
 
-      <h1>Order Invoice - فاتورة الطلب</h1>
+      <h1>Receipt authorization - إذن استلام</h1>
       <p>Order #${order.orderNumber}: رقم الطلب</p>
       <p class="date">Generated on: ${formatDate(new Date())}</p>
     </div>
