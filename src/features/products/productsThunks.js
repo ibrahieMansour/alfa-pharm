@@ -13,13 +13,19 @@ export const fetchProducts = createAsyncThunk(
     }
   }
 );
+
 export const searchProductsThunk = createAsyncThunk(
   "products/search",
-  async ({ search, page = 1, limit = 10 } = {}, thunkAPI) => {
+  async ({ search, categoryId, page = 1, limit = 10 } = {}, thunkAPI) => {
     try {
-      const res = await api.get(
-        `/products/search-admin?search=${search}&page=${page}&limit=${limit}`
-      );
+      const params = { page, limit };
+
+      if (search) params.search = search;
+      if (categoryId) params.categoryId = categoryId;
+
+      const query = new URLSearchParams(params).toString();
+
+      const res = await api.get(`/products/searchforadmin?${query}`);
       return res.data;
     } catch (err) {
       return thunkAPI.rejectWithValue(err.response?.data || err.message);
@@ -47,6 +53,7 @@ export const updateProductThunk = createAsyncThunk(
           "Content-Type": "multipart/form-data",
         },
       });
+      console.log(res.data)
       return res.data.data;
     } catch (err) {
       return thunkAPI.rejectWithValue(err.response?.data || err.message);

@@ -46,7 +46,6 @@ const productsSlice = createSlice({
         const { data, meta } = payload;
         state.products = data;
         state.meta = meta;
-        state.categories = payload.categories;
       })
 
       // ✏️ Update product

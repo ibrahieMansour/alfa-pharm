@@ -107,8 +107,7 @@ const UpdateProductsModal = ({ product, onConfirm, onClose, loading }) => {
           onSelect={(id, name) => {
             setForm({ ...form, categoryId: id })
             setCategoryName(name)
-          }
-          }
+          }}
         />
 
         <InputField
@@ -154,11 +153,10 @@ const UpdateProductsModal = ({ product, onConfirm, onClose, loading }) => {
             {/* False button */}
             <button
               type="button"
-              className={`flex-1 py-2 transition-all duration-200 rounded-l-lg ${
-                !form.isView
-                  ? "bg-blue-500 text-white shadow-sm"
-                  : "bg-white text-gray-500 hover:bg-gray-100"
-              }`}
+              className={`flex-1 py-2 transition-all duration-200 rounded-l-lg ${!form.isView
+                ? "bg-blue-500 text-white shadow-sm"
+                : "bg-white text-gray-500 hover:bg-gray-100"
+                }`}
               onClick={() => handleChange("isView", false)}
             >
               غير مرئي
@@ -166,11 +164,10 @@ const UpdateProductsModal = ({ product, onConfirm, onClose, loading }) => {
             {/* True button */}
             <button
               type="button"
-              className={`flex-1 py-2 transition-all duration-200 rounded-r-lg ${
-                form.isView
-                  ? "bg-blue-500 text-white shadow-sm"
-                  : "bg-white text-gray-500 hover:bg-gray-100"
-              }`}
+              className={`flex-1 py-2 transition-all duration-200 rounded-r-lg ${form.isView
+                ? "bg-blue-500 text-white shadow-sm"
+                : "bg-white text-gray-500 hover:bg-gray-100"
+                }`}
               onClick={() => handleChange("isView", true)}
             >
               مرئي
@@ -179,9 +176,8 @@ const UpdateProductsModal = ({ product, onConfirm, onClose, loading }) => {
         </div>
 
         <p
-          className={`h-3 text-[10px] text-center font-medium transition-all ${
-            error ? "text-red-500 opacity-100" : "opacity-0"
-          }`}
+          className={`h-3 text-[10px] text-center font-medium transition-all ${error ? "text-red-500 opacity-100" : "opacity-0"
+            }`}
         >
           {error || ""}
         </p>

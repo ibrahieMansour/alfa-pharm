@@ -10,7 +10,7 @@
     font-family: "Noto Sans Arabic", sans-serif;
   }
   ::-webkit-scrollbar {
-    width: 2px;
+    width: 5px;
     height: 5px;
   }
   ::-webkit-scrollbar-thumb {
@@ -167,12 +167,18 @@
           @apply min-w-[150px] max-w-[150px];
         }
         .table-cell:nth-of-type(3) {
-          @apply min-w-[100px];
+          @apply min-w-[100px] max-w-[100px];
         }
         .table-cell:nth-of-type(4) {
-          @apply min-w-[75px];
+          @apply min-w-[75px] max-w-[100px];
         }
         .table-cell:nth-of-type(5) {
+          @apply min-w-[50px] w-[75px];
+        }
+        .table-cell:nth-of-type(6) {
+          @apply min-w-[50px] w-[75px];
+        }
+        .table-cell:nth-of-type(7) {
           @apply min-w-[50px] w-[75px];
         }
       }

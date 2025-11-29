@@ -16,7 +16,6 @@ import Avatar from "@/assets/images/avatar.png";
 function ProfilePage() {
   const dispatch = useDispatch();
   const admin = useSelector((state) => state.auth.admin);
-  console.log(admin);
 
   const fileRef = useRef(null);
 
@@ -31,6 +30,7 @@ function ProfilePage() {
   const [editMode, setEditMode] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [imagePreview, setImagePreview] = useState("");
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
   // ✅ Add this useEffect right here
@@ -112,6 +112,7 @@ function ProfilePage() {
 
   const handleSave = () => {
     if (!validateForm()) return;
+    setLoading(true);
 
     const changedData = {};
     const { name, email, phone, password, image } = form;
@@ -131,9 +132,11 @@ function ProfilePage() {
       .unwrap()
       .then(() => {
         setEditMode(false);
+        setLoading(false);
         setError("");
       })
       .catch((err) => {
+        setLoading(false);
         if (err.statusCode === 409) {
           setError("هذا الهاتف مسجل بالفعل");
         }else{
@@ -160,12 +163,14 @@ function ProfilePage() {
               <button
                 className="bg-[#5EB756] text-white text-[10px] px-7 py-1.5 rounded-lg font-medium"
                 onClick={handleSave}
+                disabled={loading}
               >
-                حفظ
+                {loading ? "جاري الحفظ..." : "حفظ"}
               </button>
               <button
                 className="bg-[#5eb7561a] border border-[#5EB756] text-black text-[10px] px-7 py-1.5 rounded-lg font-medium"
                 onClick={handleCancel}
+                disabled={loading}
               >
                 إلغاء
               </button>

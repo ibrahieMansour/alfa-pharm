@@ -22,7 +22,7 @@ import Pagination from "@/components/Pagination";
 import { Offcanvas } from "@/components/Offcanvas";
 
 const ProductsPage = () => {
-  const isDesktopDevice = useMediaQuery("(min-width: 480px)");
+  const isDesktopDevice = useMediaQuery("(min-width: 640px)");
   const dispatch = useDispatch();
   const { products, meta } = useSelector((state) => state.products);
 
@@ -43,7 +43,7 @@ const ProductsPage = () => {
     localStorage.setItem("products_page", page);
   }, [page]);
 
-  const [filters, setFilters] = useState({ name: "" });
+  const [filters, setFilters] = useState({ name: "", categoryId: "" });
   const [isSearching, setIsSearching] = useState(false);
 
   useEffect(() => {
@@ -51,6 +51,7 @@ const ProductsPage = () => {
       dispatch(
         searchProductsThunk({
           search: filters.name,
+          categoryId: filters.categoryId,
           page,
         })
       );
@@ -108,20 +109,21 @@ const ProductsPage = () => {
 
   const handleSearch = () => {
     if (open) setOpen(false);
-    if (!filters.name) return;
+    if (!filters.name && !filters.categoryId) return;
 
     setIsSearching(true);
     setPage(1);
     dispatch(
       searchProductsThunk({
         search: filters.name,
+        categoryId: filters.categoryId,
         page: 1,
       })
     );
   };
 
   const handleCancelSearch = () => {
-    setFilters({ name: "" });
+    setFilters({ name: "", categoryId: "" });
 
     if (open) setOpen(false);
     if (!isSearching) return;
