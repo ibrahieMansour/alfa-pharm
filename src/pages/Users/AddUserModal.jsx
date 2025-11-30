@@ -22,10 +22,10 @@ const AddUserModal = ({ onConfirm, onClose, loading }) => {
   };
 
   const validateForm = () => {
-    const { name, phone, address, password, confirmPassword } = form;
+    const { name, phone, password, confirmPassword } = form;
 
     // 1️⃣ All inputs required
-    if (!name || !phone || !address || !password || !confirmPassword) {
+    if (!name || !phone || !password || !confirmPassword) {
       setError("من فضلك املأ جميع الحقول");
       return false;
     }
@@ -105,7 +105,7 @@ const AddUserModal = ({ onConfirm, onClose, loading }) => {
         />
 
         <InputField
-          label="العنوان"
+          label="العنوان (اخياري)"
           value={form.address}
           onChange={(e) => handleChange("address", e.target.value)}
         />

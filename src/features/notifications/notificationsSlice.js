@@ -9,9 +9,12 @@ import {
 
 const initialState = {
   notifications: [],
+  unreadNotificationsCount: 0,
   loading: false,
   error: null,
+  hasNewUnread: false, // NEW
 };
+
 
 const notificationsSlice = createSlice({
   name: "notifications",
@@ -28,57 +31,41 @@ const notificationsSlice = createSlice({
       })
       .addCase(fetchNotifications.fulfilled, (state, action) => {
         state.loading = false;
+
+        const oldCount = state.unreadNotificationsCount; // previous
+        const newCount = action.payload.filter((n) => !n.isView).length; // new
+
         state.notifications = action.payload;
+        state.unreadNotificationsCount = newCount;
+
+        // detect NEW unread notifications
+        state.hasNewUnread = newCount > oldCount;
       })
       .addCase(fetchNotifications.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload || action.error?.message || "Failed to fetch notifications";
       })
       // Update single notification viewed status
-      .addCase(updateNotificationStatus.pending, (state) => {
-        state.error = null;
-      })
       .addCase(updateNotificationStatus.fulfilled, (state, action) => {
         state.notifications = action.payload;
-      })
-      .addCase(updateNotificationStatus.rejected, (state, action) => {
-        state.error = action.payload || action.error?.message || "Failed to update notification";
+        state.unreadNotificationsCount = action.payload.filter((n) => !n.isView).length;
       })
       // Update all notifications viewed status
-      .addCase(updateAllNotificationsStatus.pending, (state) => {
-        state.error = null;
-      })
       .addCase(updateAllNotificationsStatus.fulfilled, (state, action) => {
         state.notifications = action.payload;
-      })
-      .addCase(updateAllNotificationsStatus.rejected, (state, action) => {
-        state.error = action.payload || action.error?.message || "Failed to update all notifications";
+        state.unreadNotificationsCount = action.payload.filter((n) => !n.isView).length;
       })
       // Delete single notification
-      .addCase(deleteNotification.pending, (state) => {
-        state.error = null;
-      })
       .addCase(deleteNotification.fulfilled, (state, action) => {
         state.notifications = action.payload;
-      })
-      .addCase(deleteNotification.rejected, (state, action) => {
-        state.error = action.payload || action.error?.message || "Failed to delete notification";
+        state.unreadNotificationsCount = action.payload.filter((n) => !n.isView).length;
       })
       // Delete all notifications
-      .addCase(deleteAllNotifications.pending, (state) => {
-        state.error = null;
-      })
       .addCase(deleteAllNotifications.fulfilled, (state, action) => {
-        state.notifications = action.payload;
+        state.notifications = [];
+        state.unreadNotificationsCount = 0;
       })
-      .addCase(deleteAllNotifications.rejected, (state, action) => {
-        state.error = action.payload || action.error?.message || "Failed to delete all notifications";
-      });
   },
 });
 
 export default notificationsSlice.reducer;
-
-// Selectors
-export const selectUnreadNotificationsCount = (state) =>
-  state.notifications.notifications?.reduce((acc, n) => acc + (n?.isView ? 0 : 1), 0) || 0;

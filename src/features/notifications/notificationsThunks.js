@@ -1,6 +1,8 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import api from "@/api/api";
+import { toastService } from "@/utils/toastService";
 
+// fetch notifications
 export const fetchNotifications = createAsyncThunk(
   "notifications/fetch",
   async (_, thunkAPI) => {
@@ -12,6 +14,7 @@ export const fetchNotifications = createAsyncThunk(
     }
   }
 );
+// update notification status
 export const updateNotificationStatus = createAsyncThunk(
   "notifications/updateStatus",
   async (id, thunkAPI) => {
@@ -23,6 +26,7 @@ export const updateNotificationStatus = createAsyncThunk(
     }
   }
 );
+// update all notifications status
 export const updateAllNotificationsStatus = createAsyncThunk(
   "notifications/updateAllStatus",
   async (_, thunkAPI) => {
@@ -34,6 +38,7 @@ export const updateAllNotificationsStatus = createAsyncThunk(
     }
   }
 );
+// delete notification
 export const deleteNotification = createAsyncThunk(
   "notifications/delete",
   async (id, thunkAPI) => {
@@ -45,6 +50,7 @@ export const deleteNotification = createAsyncThunk(
     }
   }
 );
+// delete all notifications
 export const deleteAllNotifications = createAsyncThunk(
   "notifications/deleteAll",
   async (_, thunkAPI) => {

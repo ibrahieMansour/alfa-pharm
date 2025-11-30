@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useMediaQuery } from "@uidotdev/usehooks";
 
@@ -16,8 +17,7 @@ import CardHeader from "@/components/CardHeader";
 import Pagination from "@/components/Pagination";
 import { Offcanvas } from "@/components/Offcanvas";
 
-import NotificationSound from "@/assets/sounds/notification.mp3";
-import { useLocation } from "react-router-dom";
+import FilterIcon from "@/assets/icons/filter-icon.svg";
 
 const OrdersPage = () => {
   const isDesktopDevice = useMediaQuery("(min-width: 640px)");
@@ -92,7 +92,7 @@ const OrdersPage = () => {
       // ✅ Cleanup interval on unmount or change
       return () => clearInterval(interval);
     }
-  }, [page, dispatch, isSearching]);
+  }, [page, dispatch,isSearching]);
 
 
   const handleUpdateOrderStatus = (data) => {
@@ -149,9 +149,9 @@ const OrdersPage = () => {
       ) : (
         <button
           onClick={() => setOpen(true)}
-          className="bg-[#5EB756] text-white text-sm px-3 py-2 rounded-md shadow-sm sm:hidden"
+          className="flex items-center gap-x-2 text-[#5EB756] text-xs py-1 sm:hidden"
         >
-          بحث الطلبات
+          <img src={FilterIcon} alt="filter-icon" className="w-4 h-4" />تصفية
         </button>
       )}
 

@@ -4,20 +4,33 @@ import { useDispatch, useSelector } from "react-redux";
 // import PropTypes from "prop-types";
 
 import { fetchNotifications } from "@/features/notifications/notificationsThunks";
-import { selectUnreadNotificationsCount } from "@/features/notifications/notificationsSlice";
+// import { selectUnreadNotificationsCount } from "@/features/notifications/notificationsSlice";
 
 import { useClickOutside } from "@/hooks/use-click-outside";
 import { cn } from "@/utils/cn";
+import { toastService } from "@/utils/toastService";
 import NotificationsDropdown from "@/components/NotificationsDropdown";
 
 import Avatar from "@/assets/images/avatar.png";
 import MenuBars from "@/assets/icons/menu-bars.svg";
 import BellIcon from "@/assets/icons/bell.svg";
 
-export const Header = ({ collapsed, setCollapsed, isDesktopDevice }) => {
+import NotificationSound from "../assets/sounds/notification.mp3";
+
+export const Header = ({ collapsed, setCollapsed }) => {
   const dispatch = useDispatch();
   const { admin } = useSelector(state => state.auth)
-  const unreadCount = useSelector(selectUnreadNotificationsCount);
+  const { unreadNotificationsCount, hasNewUnread } = useSelector(state => state.notifications)
+  // const unreadCount = useSelector(selectUnreadNotificationsCount);
+
+  useEffect(() => {
+    if (hasNewUnread) {
+      const audio = new Audio(NotificationSound);
+      audio.play().catch(() => { 
+        toastService.info("لديك إشعار غير مقرؤ!");
+      });
+    }
+  }, [hasNewUnread]);
 
   const [openDropdown, setOpenDropdown] = useState(false);
   const bellRef = useRef(null);
@@ -32,6 +45,7 @@ export const Header = ({ collapsed, setCollapsed, isDesktopDevice }) => {
   }, [dispatch]);
 
   useClickOutside([dropdownRef, bellRef], () => setOpenDropdown(false));
+
   return (
     <header
       className={cn(
@@ -54,9 +68,9 @@ export const Header = ({ collapsed, setCollapsed, isDesktopDevice }) => {
             aria-expanded={openDropdown}
           >
             <img src={BellIcon} alt="notifications" className={`w-5 h-5 transition-transform ${openDropdown ? "-rotate-45" : ""}`} />
-            {unreadCount > 0 && (
+            {unreadNotificationsCount > 0 && (
               <div className="absolute -right-1 -top-1 min-w-4 h-4 px-1 rounded-full bg-red-600 text-[10px] leading-4 text-white flex items-center justify-center">
-                {unreadCount > 99 ? "99+" : unreadCount}
+                {unreadNotificationsCount > 99 ? "99+" : unreadNotificationsCount}
               </div>
             )}
           </button>

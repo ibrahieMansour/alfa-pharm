@@ -21,6 +21,8 @@ import CardHeader from "@/components/CardHeader";
 import Pagination from "@/components/Pagination";
 import { Offcanvas } from "@/components/Offcanvas";
 
+import FilterIcon from "@/assets/icons/filter-icon.svg";
+
 const UsersPage = () => {
   const isDesktopDevice = useMediaQuery("(min-width: 480px)");
   const dispatch = useDispatch();
@@ -144,9 +146,9 @@ const UsersPage = () => {
       ) : (
         <button
           onClick={() => setOpen(true)}
-          className="bg-[#5EB756] text-white text-sm px-3 py-2 rounded-md shadow-sm sm:hidden"
+          className="flex items-center gap-x-2 text-[#5EB756] text-xs py-1 sm:hidden"
         >
-          بحث المستخدمين
+          <img src={FilterIcon} alt="filter-icon" className="w-4 h-4" />تصفية
         </button>
       )}
 
@@ -160,10 +162,6 @@ const UsersPage = () => {
         <div className="card-body">
           <UsersTable
             users={users}
-            // onBan={(user) => {
-            //   setSelectedUser(user);
-            //   setIsBanOpen(true);
-            // }}
             onEdit={(user) => {
               setSelectedUser(user);
               setIsEditOpen(true);
@@ -189,15 +187,6 @@ const UsersPage = () => {
       {isAddOpen && (
         <AddUserModal onConfirm={handleAddUser} onClose={closeModal} loading={loading} />
       )}
-
-      {/* {isBanOpen && (
-        <BlockUserModal
-          user={selectedUser}
-          onConfirm={handleBlockUser}
-          onClose={closeModal}
-          loading={loading}
-        />
-      )} */}
 
       {isEditOpen && (
         <UpdateUserModal

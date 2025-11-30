@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-
-import { getAdminProfile } from "@/features/auth/authThunks";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import { ProtectedRoute, PublicRoute } from "@/components/Protected";
 
@@ -21,15 +21,8 @@ import NotFoundPage from "@/pages/NotFound/NotFoundPage";
 import ProfilePage from "./pages/Profile/ProfilePage";
 
 function App() {
-  const dispatch = useDispatch();
-  const { admin, loading } = useSelector((state) => state.auth);
+  const { admin } = useSelector((state) => state.auth);
 
-  useEffect(() => {
-    const access_token = localStorage.getItem("access_token");
-    if (access_token) {
-      dispatch(getAdminProfile());
-    }
-  }, [dispatch]);
   return (
     <>
       <BrowserRouter>
@@ -44,15 +37,15 @@ function App() {
           {/* Protected routes (only when logged in) */}
           <Route element={<ProtectedRoute />}>
             <Route element={<DashboardLayout />}>
-            <Route path="/categories" element={<CategoriesPage />} />
+              <Route path="/orders">
+                <Route index element={<OrdersPage />} />
+                <Route path=":id" element={<OrderDetailsPage />} />
+              </Route>
+              <Route path="/categories" element={<CategoriesPage />} />
               <Route path="/products" element={<ProductsPage />} />
               <Route path="/users">
                 <Route index element={<UsersPage />} />
                 <Route path=":id" element={<UserDetailsPage />} />
-              </Route>
-              <Route path="/orders">
-                <Route index element={<OrdersPage />} />
-                <Route path=":id" element={<OrderDetailsPage />} />
               </Route>
               {admin.role === "ADMIN" && <Route path="/admins" element={<AdminsPage />} />}
               <Route path="/profile" element={<ProfilePage />} />
@@ -64,6 +57,7 @@ function App() {
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </BrowserRouter>
+      <ToastContainer limit={6} position="top-right" closeButton={true} autoClose={1500} theme="colored" newestOnTop />
     </>
   );
 }

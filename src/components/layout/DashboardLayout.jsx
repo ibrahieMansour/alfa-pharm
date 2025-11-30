@@ -1,14 +1,20 @@
 import { useEffect, useRef, useState } from "react";
 import { Outlet, useLocation } from "react-router-dom";
-
+import { useDispatch } from "react-redux";
 import { useMediaQuery } from "@uidotdev/usehooks";
+
+import { getAdminProfile } from "@/features/auth/authThunks";
+
 import { useClickOutside } from "@/hooks/use-click-outside";
 
 import { Sidebar } from "@/components/Sidebar";
 import { Header } from "@/components/Header";
 
 import { cn } from "@/utils/cn";
+
 const DashboardLayout = () => {
+  const dispatch = useDispatch();
+
   const isDesktopDevice = useMediaQuery("(min-width: 768px)");
   const [collapsed, setCollapsed] = useState(!isDesktopDevice);
   const sidebarRef = useRef(null);
@@ -25,6 +31,14 @@ const DashboardLayout = () => {
   useEffect(() => {
     if (!isDesktopDevice) setCollapsed(true);
   }, [location]);
+
+
+  useEffect(() => {
+    const access_token = localStorage.getItem("access_token");
+    if (access_token) {
+      dispatch(getAdminProfile());
+    }
+  }, [dispatch]);
 
   return (
     <>

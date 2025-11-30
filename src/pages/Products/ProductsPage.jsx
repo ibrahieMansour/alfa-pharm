@@ -21,6 +21,8 @@ import CardHeader from "@/components/CardHeader";
 import Pagination from "@/components/Pagination";
 import { Offcanvas } from "@/components/Offcanvas";
 
+import FilterIcon from "@/assets/icons/filter-icon.svg";
+
 const ProductsPage = () => {
   const isDesktopDevice = useMediaQuery("(min-width: 640px)");
   const dispatch = useDispatch();
@@ -145,9 +147,9 @@ const ProductsPage = () => {
       ) : (
         <button
           onClick={() => setOpen(true)}
-          className="bg-[#5EB756] text-white text-sm px-3 py-2 rounded-md shadow-sm sm:hidden"
+          className="flex items-center gap-x-2 text-[#5EB756] text-xs py-1 sm:hidden"
         >
-          بحث المنتجات
+          <img src={FilterIcon} alt="filter-icon" className="w-4 h-4" />تصفية
         </button>
       )}
 

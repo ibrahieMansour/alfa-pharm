@@ -22,9 +22,9 @@ const UpdateUserModal = ({ user, onConfirm, onClose, loading }) => {
   };
 
   const validateForm = () => {
-    const { name, phone, address, password } = form;
+    const { name, phone, password } = form;
 
-    if (!name || !phone || !address) {
+    if (!name || !phone) {
       setError("من فضلك املأ الحقول المطلوبة");
       return false;
     }
@@ -102,7 +102,7 @@ const UpdateUserModal = ({ user, onConfirm, onClose, loading }) => {
 
         <InputField
           id="address"
-          label="العنوان"
+          label="العنوان (اختياري)"
           value={form.address}
           onChange={(e) => handleChange("address", e.target.value)}
           required
